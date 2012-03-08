@@ -39,7 +39,7 @@
   </information>
 
   <packages>
-    <package>sonia.scm.authorname</package>
+    <package>sonia.scm.authormapping</package>
   </packages>
 
   <conditions>

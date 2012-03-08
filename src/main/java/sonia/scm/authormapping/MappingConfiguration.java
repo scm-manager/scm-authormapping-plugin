@@ -29,7 +29,7 @@
 
 
 
-package sonia.scm.authorname;
+package sonia.scm.authormapping;
 
 //~--- non-JDK imports --------------------------------------------------------
 
@@ -47,7 +47,7 @@ import java.util.StringTokenizer;
  *
  * @author Sebastian Sdorra
  */
-public class AuthorNameConfiguration
+public class MappingConfiguration
 {
 
   /** Field description */
@@ -66,7 +66,7 @@ public class AuthorNameConfiguration
    *
    * @param properties
    */
-  public AuthorNameConfiguration(PropertiesAware properties)
+  public MappingConfiguration(PropertiesAware properties)
   {
     this.enableAutoMapping = getBooleanProperty(properties,
             PROPERTY_AUTO_MAPPING, false);
@@ -80,8 +80,8 @@ public class AuthorNameConfiguration
    * @param enableAutoMapping
    * @param manualMapping
    */
-  public AuthorNameConfiguration(boolean enableAutoMapping,
-                                 Map<String, Person> manualMapping)
+  public MappingConfiguration(boolean enableAutoMapping,
+                              Map<String, Person> manualMapping)
   {
     this.enableAutoMapping = enableAutoMapping;
     this.manualMapping = manualMapping;

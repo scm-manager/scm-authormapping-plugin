@@ -31,7 +31,7 @@
 
 
 
-package sonia.scm.authorname;
+package sonia.scm.authormapping;
 
 //~--- non-JDK imports --------------------------------------------------------
 
@@ -58,7 +58,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Sebastian Sdorra
  */
-public class AuthorNameChangesetPreProcessor implements ChangesetPreProcessor
+public class MappingChangesetPreProcessor implements ChangesetPreProcessor
 {
 
   /** Field description */
@@ -72,7 +72,7 @@ public class AuthorNameChangesetPreProcessor implements ChangesetPreProcessor
 
   /** the logger for AuthorNameChangesetPreProcessor */
   private static final Logger logger =
-    LoggerFactory.getLogger(AuthorNameChangesetPreProcessor.class);
+    LoggerFactory.getLogger(MappingChangesetPreProcessor.class);
 
   //~--- constructors ---------------------------------------------------------
 
@@ -84,7 +84,7 @@ public class AuthorNameChangesetPreProcessor implements ChangesetPreProcessor
    * @param userManager
    * @param cache
    */
-  public AuthorNameChangesetPreProcessor(AdministrationContext adminContext,
+  public MappingChangesetPreProcessor(AdministrationContext adminContext,
           UserManager userManager, Cache<String, Person> cache)
   {
     this.adminContext = adminContext;
@@ -134,7 +134,7 @@ public class AuthorNameChangesetPreProcessor implements ChangesetPreProcessor
           logger.trace("fetch person {} from scm database", name);
         }
 
-        adminContext.runAsAdmin(new AuthorNamePrivilegedAction(userManager,
+        adminContext.runAsAdmin(new MappingPrivilegedAction(userManager,
                 person));
         cache.put(name, person);
       }

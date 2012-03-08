@@ -31,30 +31,46 @@
 
 
 
-package sonia.scm.authorname;
+package sonia.scm.authormapping;
 
 //~--- non-JDK imports --------------------------------------------------------
+
+import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sonia.scm.cache.Cache;
+import sonia.scm.cache.CacheManager;
+import sonia.scm.plugin.ext.Extension;
+import sonia.scm.repository.ChangesetPreProcessor;
+import sonia.scm.repository.ChangesetPreProcessorFactory;
 import sonia.scm.repository.Person;
-import sonia.scm.user.User;
+import sonia.scm.repository.Repository;
 import sonia.scm.user.UserManager;
-import sonia.scm.web.security.PrivilegedAction;
+import sonia.scm.util.AssertUtil;
+import sonia.scm.web.security.AdministrationContext;
 
 /**
  *
  * @author Sebastian Sdorra
  */
-public class AuthorNamePrivilegedAction implements PrivilegedAction
+@Extension
+public class MappingChangesetPreProcessorFactory
+        implements ChangesetPreProcessorFactory
 {
 
+  /** Field description */
+  public static final String CACHE_NAME = "sonia.cache.authorname";
+
+  /** Field description */
+  public static final String TYPE = "svn";
+
   /**
-   * the logger for AuthorNamePrivilegedAction
+   * the logger for AuthorNameChangesetPreProcessorFactory
    */
   private static final Logger logger =
-    LoggerFactory.getLogger(AuthorNamePrivilegedAction.class);
+    LoggerFactory.getLogger(MappingChangesetPreProcessorFactory.class);
 
   //~--- constructors ---------------------------------------------------------
 
@@ -62,13 +78,18 @@ public class AuthorNamePrivilegedAction implements PrivilegedAction
    * Constructs ...
    *
    *
+   * @param adminContext
    * @param userManager
-   * @param person
+   * @param cacheManager
    */
-  public AuthorNamePrivilegedAction(UserManager userManager, Person person)
+  @Inject
+  public MappingChangesetPreProcessorFactory(
+          AdministrationContext adminContext, UserManager userManager,
+          CacheManager cacheManager)
   {
+    this.adminContext = adminContext;
     this.userManager = userManager;
-    this.person = person;
+    this.cache = cacheManager.getCache(String.class, Person.class, CACHE_NAME);
   }
 
   //~--- methods --------------------------------------------------------------
@@ -76,39 +97,45 @@ public class AuthorNamePrivilegedAction implements PrivilegedAction
   /**
    * Method description
    *
+   *
+   * @param repository
+   *
+   * @return
    */
   @Override
-  public void run()
+  public ChangesetPreProcessor createPreProcessor(Repository repository)
   {
-    String name = person.getName();
+    AssertUtil.assertIsNotNull(repository);
 
-    if (logger.isTraceEnabled())
+    ChangesetPreProcessor cpp = null;
+
+    if (TYPE.equals(repository.getType()))
     {
-      logger.trace("search scm user with name {}", name);
-    }
-
-    User user = userManager.get(name);
-
-    if (user != null)
-    {
-      person.setName(user.getDisplayName());
-      person.setMail(user.getMail());
-
-      if (logger.isDebugEnabled())
+      if (logger.isTraceEnabled())
       {
-        logger.debug("found person '{}' for username {}", person, name);
+        logger.trace(
+            "create AuthorNameChangesetPreProcessor for repository {}",
+            repository.getName());
       }
+
+      cpp = new MappingChangesetPreProcessor(adminContext, userManager, cache);
     }
     else if (logger.isTraceEnabled())
     {
-      logger.trace("could not find user with username {}", name);
+      logger.trace("skip {} repository, because it is not a svn repository",
+                   repository.getName());
     }
+
+    return cpp;
   }
 
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private Person person;
+  private AdministrationContext adminContext;
+
+  /** Field description */
+  private Cache<String, Person> cache;
 
   /** Field description */
   private UserManager userManager;
