@@ -69,7 +69,7 @@ public class MappingConfiguration
   public MappingConfiguration(PropertiesAware properties)
   {
     this.enableAutoMapping = getBooleanProperty(properties,
-            PROPERTY_AUTO_MAPPING, false);
+            PROPERTY_AUTO_MAPPING, true);
     createManualMappingMap(properties);
   }
 
@@ -207,7 +207,7 @@ public class MappingConfiguration
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private boolean enableAutoMapping;
+  private boolean enableAutoMapping = true;
 
   /** Field description */
   private Map<String, Person> manualMapping = new HashMap<String, Person>();
