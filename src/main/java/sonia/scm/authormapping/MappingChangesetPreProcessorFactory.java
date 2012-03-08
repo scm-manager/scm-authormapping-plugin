@@ -61,7 +61,7 @@ public class MappingChangesetPreProcessorFactory
 {
 
   /** Field description */
-  public static final String CACHE_NAME = "sonia.cache.authorname";
+  public static final String CACHE_NAME = "sonia.cache.authormapping";
 
   /** Field description */
   public static final String TYPE = "svn";
@@ -114,7 +114,7 @@ public class MappingChangesetPreProcessorFactory
       if (logger.isTraceEnabled())
       {
         logger.trace(
-            "create AuthorNameChangesetPreProcessor for repository {}",
+            "create MappingChangesetPreProcessorFactory for repository {}",
             repository.getName());
       }
 
