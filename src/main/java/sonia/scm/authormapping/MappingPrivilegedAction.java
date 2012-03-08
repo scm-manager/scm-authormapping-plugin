@@ -87,9 +87,9 @@ public class MappingPrivilegedAction implements PrivilegedAction
   {
     String name = person.getName();
 
-    if (logger.isTraceEnabled())
+    if (logger.isDebugEnabled())
     {
-      logger.trace("search scm user with name {}", name);
+      logger.debug("search scm user with name {}", name);
     }
 
     User user = findUser(person);
