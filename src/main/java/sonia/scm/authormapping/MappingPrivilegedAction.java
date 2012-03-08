@@ -39,9 +39,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sonia.scm.repository.Person;
+import sonia.scm.search.SearchRequest;
 import sonia.scm.user.User;
 import sonia.scm.user.UserManager;
 import sonia.scm.web.security.PrivilegedAction;
+
+//~--- JDK imports ------------------------------------------------------------
+
+import java.util.Collection;
 
 /**
  *
@@ -87,7 +92,7 @@ public class MappingPrivilegedAction implements PrivilegedAction
       logger.trace("search scm user with name {}", name);
     }
 
-    User user = userManager.get(name);
+    User user = findUser(person);
 
     if (user != null)
     {
@@ -103,6 +108,37 @@ public class MappingPrivilegedAction implements PrivilegedAction
     {
       logger.trace("could not find user with username {}", name);
     }
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param person
+   *
+   * @return
+   */
+  private User findUser(Person person)
+  {
+    User user = null;
+    Collection<User> users =
+      userManager.search(new SearchRequest(person.getName(), true));
+
+    if (users != null)
+    {
+      for (User u : users)
+      {
+        if (person.getName().equalsIgnoreCase(u.getName())
+            || person.getName().equalsIgnoreCase(u.getDisplayName()))
+        {
+          user = u;
+
+          break;
+        }
+      }
+    }
+
+    return user;
   }
 
   //~--- fields ---------------------------------------------------------------
