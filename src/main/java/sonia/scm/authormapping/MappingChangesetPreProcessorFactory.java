@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sonia.scm.HandlerEvent;
 import sonia.scm.cache.Cache;
 import sonia.scm.cache.CacheManager;
 import sonia.scm.plugin.ext.Extension;
@@ -47,6 +48,8 @@ import sonia.scm.repository.ChangesetPreProcessor;
 import sonia.scm.repository.ChangesetPreProcessorFactory;
 import sonia.scm.repository.Person;
 import sonia.scm.repository.Repository;
+import sonia.scm.user.User;
+import sonia.scm.user.UserListener;
 import sonia.scm.user.UserManager;
 import sonia.scm.util.AssertUtil;
 import sonia.scm.web.security.AdministrationContext;
@@ -57,7 +60,7 @@ import sonia.scm.web.security.AdministrationContext;
  */
 @Extension
 public class MappingChangesetPreProcessorFactory
-        implements ChangesetPreProcessorFactory
+        implements ChangesetPreProcessorFactory, UserListener
 {
 
   /** Field description */
@@ -86,6 +89,7 @@ public class MappingChangesetPreProcessorFactory
   {
     this.adminContext = adminContext;
     this.userManager = userManager;
+    this.userManager.addListener(this);
     this.cache = cacheManager.getCache(String.class, Person.class, CACHE_NAME);
   }
 
@@ -107,11 +111,30 @@ public class MappingChangesetPreProcessorFactory
     if (logger.isTraceEnabled())
     {
       logger.trace(
-          "create MappingChangesetPreProcessorFactory for repository {}",
+          "create MappingChangesetPreProcessor for repository {}",
           repository.getName());
     }
 
-    return new MappingChangesetPreProcessor(adminContext, userManager, cache);
+    MappingResolver resolver = new MappingResolver(adminContext, userManager,
+                                 cache, new MappingConfiguration(repository));
+
+    return new MappingChangesetPreProcessor(resolver);
+  }
+
+  /**
+   * Clears the mapping cache after a user has changed
+   *
+   *
+   * @param user
+   * @param event
+   */
+  @Override
+  public void onEvent(User user, HandlerEvent event)
+  {
+    if (cache != null)
+    {
+      cache.clear();
+    }
   }
 
   //~--- fields ---------------------------------------------------------------

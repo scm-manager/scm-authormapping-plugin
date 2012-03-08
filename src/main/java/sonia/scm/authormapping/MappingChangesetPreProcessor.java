@@ -38,14 +38,11 @@ package sonia.scm.authormapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sonia.scm.cache.Cache;
 import sonia.scm.repository.Changeset;
 import sonia.scm.repository.ChangesetPreProcessor;
 import sonia.scm.repository.Person;
-import sonia.scm.user.UserManager;
 import sonia.scm.util.AssertUtil;
 import sonia.scm.util.Util;
-import sonia.scm.web.security.AdministrationContext;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -80,16 +77,12 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
    * Constructs ...
    *
    *
-   * @param adminContext
-   * @param userManager
-   * @param cache
+   *
+   * @param resolver
    */
-  public MappingChangesetPreProcessor(AdministrationContext adminContext,
-          UserManager userManager, Cache<String, Person> cache)
+  public MappingChangesetPreProcessor(MappingResolver resolver)
   {
-    this.adminContext = adminContext;
-    this.userManager = userManager;
-    this.cache = cache;
+    this.resolver = resolver;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -116,42 +109,33 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
 
     if (Util.isNotEmpty(name))
     {
-      Person cachedPerson = cache.get(name);
-
-      if (cachedPerson != null)
-      {
-        if (logger.isTraceEnabled())
-        {
-          logger.trace("fetch person {} from cache", name);
-        }
-
-        person = cachedPerson;
-      }
-      else
-      {
-        if (logger.isTraceEnabled())
-        {
-          logger.trace("fetch person {} from scm database", name);
-        }
-
-        adminContext.runAsAdmin(new MappingPrivilegedAction(userManager,
-                person));
-        cache.put(name, person);
-      }
-
+      person = resolver.resolve(name, person.getMail());
       changeset.setAuthor(person);
 
-      String gravatarHash = changeset.getProperty(PROPERTY_GRAVATAR);
-
-      if (Util.isNotEmpty(gravatarHash))
-      {
-        setGravatarHash(changeset, person);
-      }
+      // append gravatar hash to fix plugin order
+      appendGravatarProperty(changeset, person);
     }
     else if (logger.isWarnEnabled())
     {
       logger.warn("person object of changeset {} has no name",
                   changeset.getId());
+    }
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param changeset
+   * @param author
+   */
+  private void appendGravatarProperty(Changeset changeset, Person author)
+  {
+    String gravatarHash = changeset.getProperty(PROPERTY_GRAVATAR);
+
+    if (Util.isNotEmpty(gravatarHash))
+    {
+      setGravatarHash(changeset, author);
     }
   }
 
@@ -238,11 +222,5 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  private AdministrationContext adminContext;
-
-  /** Field description */
-  private Cache<String, Person> cache;
-
-  /** Field description */
-  private UserManager userManager;
+  private MappingResolver resolver;
 }
