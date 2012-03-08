@@ -63,9 +63,6 @@ public class MappingChangesetPreProcessorFactory
   /** Field description */
   public static final String CACHE_NAME = "sonia.cache.authormapping";
 
-  /** Field description */
-  public static final String TYPE = "svn";
-
   /**
    * the logger for MappingChangesetPreProcessorFactory
    */
@@ -107,26 +104,14 @@ public class MappingChangesetPreProcessorFactory
   {
     AssertUtil.assertIsNotNull(repository);
 
-    ChangesetPreProcessor cpp = null;
-
-    if (TYPE.equals(repository.getType()))
+    if (logger.isTraceEnabled())
     {
-      if (logger.isTraceEnabled())
-      {
-        logger.trace(
-            "create MappingChangesetPreProcessorFactory for repository {}",
-            repository.getName());
-      }
-
-      cpp = new MappingChangesetPreProcessor(adminContext, userManager, cache);
-    }
-    else if (logger.isTraceEnabled())
-    {
-      logger.trace("skip {} repository, because it is not a svn repository",
-                   repository.getName());
+      logger.trace(
+          "create MappingChangesetPreProcessorFactory for repository {}",
+          repository.getName());
     }
 
-    return cpp;
+    return new MappingChangesetPreProcessor(adminContext, userManager, cache);
   }
 
   //~--- fields ---------------------------------------------------------------
