@@ -52,11 +52,11 @@ public class MappingConfiguration
 
   /** Field description */
   public static final String PROPERTY_AUTO_MAPPING =
-    "sonia.authorname.auto-mapping";
+    "sonia.authormapping.auto-mapping";
 
   /** Field description */
   public static final String PROPERTY_MAUNAL_MAPPING =
-    "sonia.authorname.manual-mapping";
+    "sonia.authormapping.manual-mapping";
 
   //~--- constructors ---------------------------------------------------------
 

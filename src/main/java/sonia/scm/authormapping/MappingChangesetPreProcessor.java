@@ -70,7 +70,7 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
   /** Field description */
   public static final String PROPERTY_GRAVATAR = "gravatar-hash";
 
-  /** the logger for AuthorNameChangesetPreProcessor */
+  /** the logger for MappingChangesetPreProcessor */
   private static final Logger logger =
     LoggerFactory.getLogger(MappingChangesetPreProcessor.class);
 

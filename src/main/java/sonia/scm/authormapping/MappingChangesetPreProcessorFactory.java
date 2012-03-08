@@ -67,7 +67,7 @@ public class MappingChangesetPreProcessorFactory
   public static final String TYPE = "svn";
 
   /**
-   * the logger for AuthorNameChangesetPreProcessorFactory
+   * the logger for MappingChangesetPreProcessorFactory
    */
   private static final Logger logger =
     LoggerFactory.getLogger(MappingChangesetPreProcessorFactory.class);

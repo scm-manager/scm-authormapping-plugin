@@ -51,7 +51,7 @@ public class MappingPrivilegedAction implements PrivilegedAction
 {
 
   /**
-   * the logger for AuthorNamePrivilegedAction
+   * the logger for MappingPrivilegedAction
    */
   private static final Logger logger =
     LoggerFactory.getLogger(MappingPrivilegedAction.class);
