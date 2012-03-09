@@ -92,13 +92,17 @@ public class MappingResolver
   {
     Person person = configuration.getMapping(name);
 
-    if ((person == null) && configuration.isEnableAutoMapping())
+    if (person == null)
     {
-      person = getPersonFromDatabase(name, mail);
-    }
-    else
-    {
-      person = new Person(name, mail);
+      if (configuration.isEnableAutoMapping())
+      {
+        person = getPersonFromDatabase(name, mail);
+      }
+
+      if (person == null)
+      {
+        person = new Person(name, mail);
+      }
     }
 
     return person;
