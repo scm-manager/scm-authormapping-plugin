@@ -45,5 +45,9 @@
   <conditions>
     <min-version>${project.parent.version}</min-version>
   </conditions>
+  
+  <resources>
+    <script>/sonia/scm/authormapping/sonia.authormapping.js</script>
+  </resources>
 
 </plugin>
