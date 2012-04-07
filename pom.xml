@@ -11,7 +11,7 @@
 
   <groupId>sonia.scm.plugins</groupId>
   <artifactId>scm-authormapping-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>scm-authormapping-plugin</name>
   <url>https://bitbucket.org/sdorra/scm-authormapping-plugin</url>
   <description>Lookup and transform usernames to the real names stored in the scm-manager user database or in a mapping table.</description>
