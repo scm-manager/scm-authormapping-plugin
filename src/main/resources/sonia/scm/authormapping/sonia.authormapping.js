@@ -41,7 +41,10 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
   colDisplayNameText: 'Display Name',
   colMailText: 'Mail',
   
-  authorMappingGridHelpText: '',
+  authorMappingGridHelpText: 'Manage mappings for changeset authors.<br />\n\
+    <strong>Name</strong> = Author name to map.<br />\n\
+    <strong>Display Name</strong> = New authors display name.<br />\n\
+    <strong>Mail</strong> = New authors mail.',
   
   addText: 'Add',
   removeTest: 'Remove',
