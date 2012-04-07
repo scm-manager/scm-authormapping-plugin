@@ -14,7 +14,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>scm-authormapping-plugin</name>
   <url>https://bitbucket.org/sdorra/scm-authormapping-plugin</url>
-  <description>Lookup and transform usernames to the real names stored in the scm-manager user database.</description>
+  <description>Lookup and transform usernames to the real names stored in the scm-manager user database or in a mapping table.</description>
   
   <scm>
     <connection>scm:hg:https://bitbucket.org/sdorra/scm-authormapping-plugin</connection>
