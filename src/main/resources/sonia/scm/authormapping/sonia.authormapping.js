@@ -42,9 +42,9 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
   colMailText: 'Mail',
   
   authorMappingGridHelpText: 'Manage mappings for changeset authors.<br />\n\
-    <strong>Name</strong> = Author name to map.<br />\n\
-    <strong>Display Name</strong> = New authors display name.<br />\n\
-    <strong>Mail</strong> = New authors mail.',
+    <b>Name</b> = Author name to map.<br />\n\
+    <b>Display Name</b> = New authors display name.<br />\n\
+    <b>Mail</b> = New authors mail.',
   
   addText: 'Add',
   removeTest: 'Remove',
@@ -52,6 +52,7 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
   // icons
   addIcon: 'resources/images/add.gif',
   removeIcon: 'resources/images/delete.gif',
+  helpIcon: 'resources/images/help.gif',
   
   initComponent: function(){
     this.mappingStore = new Ext.data.ArrayStore({
@@ -65,6 +66,12 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
         field: 'name'
       }
     });
+    
+    if ( this.isNewVersion() ){
+      this.addIcon = 'resources/images/add.png';
+      this.removeIcon = 'resources/images/delete.png';
+      this.helpIcon = 'resources/images/help.png';
+    }
     
     this.loadAuthorMappings(this.mappingStore, this.item);
     
@@ -141,7 +148,7 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
           xtype: 'box',
           autoEl: {
             tag: 'img',
-            src: 'resources/images/help.gif'
+            src: this.helpIcon
           }
         }]
 
@@ -149,6 +156,25 @@ Sonia.authormapping.ConfigPanel = Ext.extend(Sonia.repository.PropertiesFormPane
     }
     Ext.apply(this, Ext.apply(this.initialConfig, config));
     Sonia.authormapping.ConfigPanel.superclass.initComponent.apply(this, arguments);
+  },
+  
+  isNewVersion: function(){
+    var result = false;
+    try {
+      var version = state.version;
+      var parts = version.split('\.');
+      if ( parts[0] != '1' ){
+        result = true;
+      } else {
+        parts = parts[1].split('-');
+        result = parseInt(parts[0]) > 11;
+      }
+    } catch (e){
+      if (debug){
+        console.debug(e);
+      }
+    }
+    return result;
   },
   
   afterRender: function(){
