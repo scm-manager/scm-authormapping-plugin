@@ -6,7 +6,7 @@
   <parent>
     <artifactId>scm-plugins</artifactId>
     <groupId>sonia.scm.plugins</groupId>
-    <version>1.8</version>
+    <version>1.17-SNAPSHOT</version>
   </parent>
 
   <groupId>sonia.scm.plugins</groupId>
@@ -21,26 +21,6 @@
     <developerConnection>scm:hg:https://bitbucket.org/sdorra/scm-authormapping-plugin</developerConnection>
     <url>https://bitbucket.org/sdorra/scm-authormapping-plugin</url>
   </scm>
-  
-  <build>
-    <plugins>
-      
-      <plugin>
-        <groupId>sonia.scm.maven</groupId>
-        <artifactId>scm-maven-plugin</artifactId>
-        <version>1.10</version>
-        <executions>
-          <execution>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>fix-descriptor</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    
-    </plugins>
-  </build>
 
   <dependencies>
 

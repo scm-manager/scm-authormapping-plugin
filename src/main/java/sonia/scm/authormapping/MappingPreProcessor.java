@@ -38,6 +38,8 @@ package sonia.scm.authormapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sonia.scm.repository.BlameLine;
+import sonia.scm.repository.BlameLinePreProcessor;
 import sonia.scm.repository.Changeset;
 import sonia.scm.repository.ChangesetPreProcessor;
 import sonia.scm.repository.Person;
@@ -55,7 +57,8 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Sebastian Sdorra
  */
-public class MappingChangesetPreProcessor implements ChangesetPreProcessor
+public class MappingPreProcessor
+        implements ChangesetPreProcessor, BlameLinePreProcessor
 {
 
   /** Field description */
@@ -67,9 +70,9 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
   /** Field description */
   public static final String PROPERTY_GRAVATAR = "gravatar-hash";
 
-  /** the logger for MappingChangesetPreProcessor */
+  /** the logger for MappingPreProcessor */
   private static final Logger logger =
-    LoggerFactory.getLogger(MappingChangesetPreProcessor.class);
+    LoggerFactory.getLogger(MappingPreProcessor.class);
 
   //~--- constructors ---------------------------------------------------------
 
@@ -80,7 +83,7 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
    *
    * @param resolver
    */
-  public MappingChangesetPreProcessor(MappingResolver resolver)
+  public MappingPreProcessor(MappingResolver resolver)
   {
     this.resolver = resolver;
   }
@@ -100,26 +103,28 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
 
     Person person = changeset.getAuthor();
 
-    if (person == null)
-    {
-      person = new Person();
-    }
+    person = resolve(person);
+    changeset.setAuthor(person);
 
-    String name = person.getName();
+    // append gravatar hash to fix plugin order
+    appendGravatarProperty(changeset, person);
+  }
 
-    if (Util.isNotEmpty(name))
-    {
-      person = resolver.resolve(name, person.getMail());
-      changeset.setAuthor(person);
+  /**
+   * Method description
+   *
+   *
+   * @param blameLine
+   */
+  @Override
+  public void process(BlameLine blameLine)
+  {
+    AssertUtil.assertIsNotNull(blameLine);
 
-      // append gravatar hash to fix plugin order
-      appendGravatarProperty(changeset, person);
-    }
-    else if (logger.isWarnEnabled())
-    {
-      logger.warn("person object of changeset {} has no name",
-                  changeset.getId());
-    }
+    Person person = blameLine.getAuthor();
+
+    person = resolve(person);
+    blameLine.setAuthor(person);
   }
 
   /**
@@ -192,6 +197,35 @@ public class MappingChangesetPreProcessor implements ChangesetPreProcessor
     }
 
     return out;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param person
+   *
+   * @return
+   */
+  private Person resolve(Person person)
+  {
+    if (person == null)
+    {
+      person = new Person();
+    }
+
+    String name = person.getName();
+
+    if (Util.isNotEmpty(name))
+    {
+      person = resolver.resolve(name, person.getMail());
+    }
+    else if (logger.isWarnEnabled())
+    {
+      logger.warn("person object has no name");
+    }
+
+    return person;
   }
 
   //~--- set methods ----------------------------------------------------------
