@@ -266,9 +266,11 @@ Ext.reg("authormappingConfigPanel", Sonia.authormapping.ConfigPanel);
 
 // register panel
 Sonia.repository.openListeners.push(function(repository, panels){
-  panels.push({
-    xtype: 'authormappingConfigPanel',
-    item: repository
-  });
+  if (Sonia.repository.isOwner(repository)){
+    panels.push({
+      xtype: 'authormappingConfigPanel',
+      item: repository
+    });
+  }
 });
 
