@@ -1,5 +1,8 @@
 {
   "scm-authormapping-plugin": {
-    "nav-link": "Author Mapping"
+    "nav-link": "Author Mapping",
+    "config": {
+      "title": "Author Mapping Configuration"
+    }
   }
 }

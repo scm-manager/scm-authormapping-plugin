@@ -6,6 +6,6 @@ import ConfigurationContainer from "./ConfigurationContainer";
 cfgBinder.bindRepositorySetting(
   "/authormapping",
   "scm-authormapping-plugin.nav-link",
-  "self", // TODO: Add correct link
+  "authorMappingConfig",
   ConfigurationContainer
 );

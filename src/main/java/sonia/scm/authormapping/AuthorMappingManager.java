@@ -15,7 +15,6 @@ public class AuthorMappingManager {
 
     public void saveConfiguration(MappingConfiguration configuration, Repository repository) {
         configStore.storeConfiguration(configuration, repository);
-        return;
     }
 
     public MappingConfiguration getConfiguration(Repository repository) {
