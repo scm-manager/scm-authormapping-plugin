@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2010, Sebastian Sdorra All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer. 2. Redistributions in
  * binary form must reproduce the above copyright notice, this list of
@@ -11,7 +11,7 @@
  * materials provided with the distribution. 3. Neither the name of SCM-Manager;
  * nor the names of its contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -22,67 +22,44 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * <p>
  * http://bitbucket.org/sdorra/scm-manager
- *
  */
 
 
-
 package sonia.scm.authormapping;
-
-//~--- non-JDK imports --------------------------------------------------------
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import sonia.scm.cache.CacheManager;
-import sonia.scm.plugin.ext.Extension;
+import sonia.scm.plugin.Extension;
+import sonia.scm.repository.BlameLinePreProcessor;
 import sonia.scm.repository.BlameLinePreProcessorFactory;
 import sonia.scm.repository.Repository;
 import sonia.scm.user.UserManager;
 import sonia.scm.web.security.AdministrationContext;
 
 /**
- *
  * @author Sebastian Sdorra
  */
 @Singleton
 @Extension
 public class MappingBlameLinePreProcessorFactory
         extends AbstractMappingPreProcessorFactory
-        implements BlameLinePreProcessorFactory
-{
+        implements BlameLinePreProcessorFactory {
 
-  /**
-   * Constructs ...
-   *
-   *
-   * @param adminContext
-   * @param userManager
-   * @param cacheManager
-   */
-  @Inject
-  public MappingBlameLinePreProcessorFactory(
-          AdministrationContext adminContext, UserManager userManager,
-          CacheManager cacheManager)
-  {
-    super(adminContext, userManager, cacheManager);
-  }
 
-  //~--- methods --------------------------------------------------------------
+    @Inject
+    public MappingBlameLinePreProcessorFactory(
+            AdministrationContext adminContext, UserManager userManager,
+            CacheManager cacheManager) {
+        super(adminContext, userManager, cacheManager);
+    }
 
-  /**
-   * Method description
-   *
-   *
-   * @param repository
-   *
-   * @return
-   */
-  @Override
-  public MappingPreProcessor createPreProcessor(Repository repository)
-  {
-    return createMappingPreProcessor(repository);
-  }
+
+    @Override
+    public BlameLinePreProcessor createPreProcessor(Repository repository) {
+        return new AuthorMappingBlameLinePreProcessor(createMappingResolver(repository));
+    }
 }

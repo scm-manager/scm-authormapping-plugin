@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2010, Sebastian Sdorra All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer. 2. Redistributions in
  * binary form must reproduce the above copyright notice, this list of
@@ -11,7 +11,7 @@
  * materials provided with the distribution. 3. Neither the name of SCM-Manager;
  * nor the names of its contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -22,20 +22,12 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * <p>
  * http://bitbucket.org/sdorra/scm-manager
- *
  */
 
 
-
 package sonia.scm.authormapping;
-
-//~--- non-JDK imports --------------------------------------------------------
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import sonia.scm.cache.Cache;
 import sonia.scm.cache.CacheManager;
@@ -46,76 +38,29 @@ import sonia.scm.util.AssertUtil;
 import sonia.scm.web.security.AdministrationContext;
 
 /**
- *
  * @author Sebastian Sdorra
  */
-public class AbstractMappingPreProcessorFactory
-{
+public class AbstractMappingPreProcessorFactory {
 
-  /** Field description */
-  public static final String CACHE_NAME = "sonia.cache.authormapping";
+    public static final String CACHE_NAME = "sonia.cache.authormapping";
 
-  /**
-   * the logger for MappingChangesetPreProcessorFactory
-   */
-  private static final Logger logger =
-    LoggerFactory.getLogger(AbstractMappingPreProcessorFactory.class);
+    private AdministrationContext adminContext;
+    private Cache<String, Person> cache;
+    private UserManager userManager;
 
-  //~--- constructors ---------------------------------------------------------
 
-  /**
-   * Constructs ...
-   *
-   *
-   * @param adminContext
-   * @param userManager
-   * @param cacheManager
-   */
-  protected AbstractMappingPreProcessorFactory(
-          AdministrationContext adminContext, UserManager userManager,
-          CacheManager cacheManager)
-  {
-    this.adminContext = adminContext;
-    this.userManager = userManager;
-    this.cache = cacheManager.getCache(String.class, Person.class, CACHE_NAME);
-    this.userManager.addListener(new MappingCacheListener(cache));
-  }
-
-  //~--- methods --------------------------------------------------------------
-
-  /**
-   * Method description
-   *
-   *
-   * @param repository
-   *
-   * @return
-   */
-  public MappingPreProcessor createMappingPreProcessor(
-          Repository repository)
-  {
-    AssertUtil.assertIsNotNull(repository);
-
-    if (logger.isTraceEnabled())
-    {
-      logger.trace("create MappingPreProcessor for repository {}",
-                   repository.getName());
+    protected AbstractMappingPreProcessorFactory(
+            AdministrationContext adminContext, UserManager userManager,
+            CacheManager cacheManager) {
+        this.adminContext = adminContext;
+        this.userManager = userManager;
+        this.cache = cacheManager.getCache(CACHE_NAME);
     }
 
-    MappingResolver resolver = new MappingResolver(adminContext, userManager,
-                                 cache, new MappingConfiguration(repository));
+    public MappingResolver createMappingResolver(Repository repository) {
+        AssertUtil.assertIsNotNull(repository);
+        return new MappingResolver(adminContext, userManager,
+                cache, new MappingConfiguration(repository));
+    }
 
-    return new MappingPreProcessor(resolver);
-  }
-
-  //~--- fields ---------------------------------------------------------------
-
-  /** Field description */
-  private AdministrationContext adminContext;
-
-  /** Field description */
-  private Cache<String, Person> cache;
-
-  /** Field description */
-  private UserManager userManager;
 }

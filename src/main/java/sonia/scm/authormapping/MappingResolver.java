@@ -1,19 +1,19 @@
 /**
  * Copyright (c) 2010, Sebastian Sdorra
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
  * 3. Neither the name of SCM-Manager; nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,9 +24,8 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * <p>
  * http://bitbucket.org/sdorra/scm-manager
- *
  */
 
 
@@ -46,121 +45,70 @@ import sonia.scm.web.security.AdministrationContext;
  *
  * @author Sebastian Sdorra
  */
-public class MappingResolver
-{
+public class MappingResolver {
 
-  /**
-   * the logger for MappingResolver
-   */
-  private static final Logger logger =
-    LoggerFactory.getLogger(MappingResolver.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(MappingResolver.class);
 
-  //~--- constructors ---------------------------------------------------------
 
-  /**
-   * Constructs ...
-   *
-   *
-   * @param adminContext
-   * @param userManager
-   * @param cache
-   * @param configuration
-   */
-  public MappingResolver(AdministrationContext adminContext,
-                         UserManager userManager, Cache<String, Person> cache,
-                         MappingConfiguration configuration)
-  {
-    this.adminContext = adminContext;
-    this.userManager = userManager;
-    this.cache = cache;
-    this.configuration = configuration;
-  }
+    private AdministrationContext adminContext;
+    private Cache<String, Person> cache;
+    private MappingConfiguration configuration;
+    private UserManager userManager;
 
-  //~--- methods --------------------------------------------------------------
-
-  /**
-   * Resolve the author name of the user in the following order:
-   * - mapping configuration
-   * - cache (sonia.cache.authormapping)
-   * - scm-manager user database
-   *
-   * @param name
-   * @param mail
-   *
-   * @return
-   */
-  public Person resolve(String name, String mail)
-  {
-    Person person = configuration.getMapping(name);
-
-    if (person == null)
-    {
-      if (configuration.isEnableAutoMapping())
-      {
-        person = getPersonFromDatabase(name, mail);
-      }
-
-      if (person == null)
-      {
-        person = new Person(name, mail);
-      }
+    public MappingResolver(AdministrationContext adminContext,
+                           UserManager userManager, Cache<String, Person> cache,
+                           MappingConfiguration configuration) {
+        this.adminContext = adminContext;
+        this.userManager = userManager;
+        this.cache = cache;
+        this.configuration = configuration;
     }
 
-    return person;
-  }
+    /**
+     * Resolve the author name of the user in the following order:
+     * - mapping configuration
+     * - cache (sonia.cache.authormapping)
+     * - scm-manager user database
+     */
+    public Person resolve(String name, String mail) {
+        Person person = configuration.getMapping(name);
 
-  //~--- get methods ----------------------------------------------------------
+        if (person == null) {
+            if (configuration.isEnableAutoMapping()) {
+                person = getPersonFromDatabase(name, mail);
+            }
 
-  /**
-   * Method description
-   *
-   *
-   * @param name
-   * @param mail
-   *
-   * @return
-   */
-  private Person getPersonFromDatabase(String name, String mail)
-  {
-    Person person = null;
-    Person cachedPerson = cache.get(name);
+            if (person == null) {
+                person = new Person(name, mail);
+            }
+        }
 
-    if (cachedPerson != null)
-    {
-      if (logger.isTraceEnabled())
-      {
-        logger.trace("fetch person {} from cache", name);
-      }
-
-      person = cachedPerson;
-    }
-    else
-    {
-      person = new Person(name, mail);
-
-      if (logger.isTraceEnabled())
-      {
-        logger.trace("fetch person {} from scm database", name);
-      }
-
-      adminContext.runAsAdmin(new MappingPrivilegedAction(userManager, person));
-      cache.put(name, person);
+        return person;
     }
 
-    return person;
-  }
+    private Person getPersonFromDatabase(String name, String mail) {
+        Person person;
+        Person cachedPerson = cache.get(name);
 
-  //~--- fields ---------------------------------------------------------------
+        if (cachedPerson != null) {
+            if (logger.isTraceEnabled()) {
+                logger.trace("fetch person {} from cache", name);
+            }
 
-  /** Field description */
-  private AdministrationContext adminContext;
+            person = cachedPerson;
+        } else {
+            person = new Person(name, mail);
 
-  /** Field description */
-  private Cache<String, Person> cache;
+            if (logger.isTraceEnabled()) {
+                logger.trace("fetch person {} from scm database", name);
+            }
 
-  /** Field description */
-  private MappingConfiguration configuration;
+            adminContext.runAsAdmin(new MappingPrivilegedAction(userManager, person));
+            cache.put(name, person);
+        }
 
-  /** Field description */
-  private UserManager userManager;
+        return person;
+    }
+
 }

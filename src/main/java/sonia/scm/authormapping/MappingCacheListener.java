@@ -1,19 +1,19 @@
 /**
  * Copyright (c) 2010, Sebastian Sdorra
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
  * 3. Neither the name of SCM-Manager; nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,82 +24,54 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * <p>
  * http://bitbucket.org/sdorra/scm-manager
- *
  */
-
 
 
 package sonia.scm.authormapping;
 
-//~--- non-JDK imports --------------------------------------------------------
-
+import com.github.legman.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import sonia.scm.HandlerEvent;
+import sonia.scm.EagerSingleton;
 import sonia.scm.cache.Cache;
+import sonia.scm.cache.CacheManager;
+import sonia.scm.plugin.Extension;
 import sonia.scm.repository.Person;
 import sonia.scm.user.User;
-import sonia.scm.user.UserListener;
+import sonia.scm.user.UserEvent;
+
+import javax.inject.Inject;
 
 /**
- *
  * @author Sebastian Sdorra
  */
-public class MappingCacheListener implements UserListener
-{
+@Extension
+@EagerSingleton
+public class MappingCacheListener {
 
-  /**
-   * the logger for MappingCacheListener
-   */
-  private static final Logger logger =
-    LoggerFactory.getLogger(MappingCacheListener.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(MappingCacheListener.class);
+    private Cache<String, Person> cache;
 
-  //~--- constructors ---------------------------------------------------------
-
-  /**
-   * Constructs ...
-   *
-   *
-   * @param cache
-   */
-  public MappingCacheListener(Cache<String, Person> cache)
-  {
-    this.cache = cache;
-  }
-
-  //~--- methods --------------------------------------------------------------
-
-  /**
-   * Clears the mapping cache after a user has changed
-   *
-   *
-   * @param user
-   * @param event
-   */
-  @Override
-  public void onEvent(User user, HandlerEvent event)
-  {
-    if (cache != null)
-    {
-      cache.clear();
-
-      if (logger.isDebugEnabled())
-      {
-        logger.debug("clear mapping cache because user {} has changed",
-                     user.getName());
-      }
+    @Inject
+    public MappingCacheListener(CacheManager cacheManager) {
+        this.cache = cacheManager.getCache(AbstractMappingPreProcessorFactory.CACHE_NAME);
     }
-    else if (logger.isWarnEnabled())
-    {
-      logger.warn("mapping cache is not available");
+
+    @Subscribe
+    public void onEvent(UserEvent userEvent) {
+        User user = userEvent.getItem();
+
+        if (cache != null) {
+            cache.clear();
+
+            logger.debug("clear mapping cache because user {} has changed",
+                    user.getName());
+        } else {
+            logger.warn("mapping cache is not available");
+        }
     }
-  }
 
-  //~--- fields ---------------------------------------------------------------
-
-  /** Field description */
-  private Cache<String, Person> cache;
 }
