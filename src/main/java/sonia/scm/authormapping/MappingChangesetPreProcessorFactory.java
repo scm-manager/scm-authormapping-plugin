@@ -55,8 +55,8 @@ public class MappingChangesetPreProcessorFactory
     @Inject
     public MappingChangesetPreProcessorFactory(
             AdministrationContext adminContext, UserManager userManager,
-            CacheManager cacheManager) {
-        super(adminContext, userManager, cacheManager);
+            CacheManager cacheManager, AuthorMappingManager mappingManager) {
+        super(adminContext, userManager, cacheManager, mappingManager);
     }
 
     @Override

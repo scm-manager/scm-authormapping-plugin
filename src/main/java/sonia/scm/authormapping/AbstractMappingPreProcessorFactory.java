@@ -47,20 +47,23 @@ public class AbstractMappingPreProcessorFactory {
     private AdministrationContext adminContext;
     private Cache<String, Person> cache;
     private UserManager userManager;
+    private AuthorMappingManager mappingManager;
 
 
     protected AbstractMappingPreProcessorFactory(
             AdministrationContext adminContext, UserManager userManager,
-            CacheManager cacheManager) {
+            CacheManager cacheManager, AuthorMappingManager mappingManager) {
         this.adminContext = adminContext;
         this.userManager = userManager;
         this.cache = cacheManager.getCache(CACHE_NAME);
+        this.mappingManager = mappingManager;
     }
 
     public MappingResolver createMappingResolver(Repository repository) {
         AssertUtil.assertIsNotNull(repository);
+        MappingConfiguration configuration = mappingManager.getConfiguration(repository);
         return new MappingResolver(adminContext, userManager,
-                cache, new MappingConfiguration(repository));
+                cache, configuration);
     }
 
 }
