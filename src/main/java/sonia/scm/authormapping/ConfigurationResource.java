@@ -47,7 +47,7 @@ public class ConfigurationResource {
     @PUT
     @Path("/{namespace}/{name}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addConfiguration(@PathParam("namespace") String namespace, @PathParam("name") String name, MappingConfigurationDto dto) {
+    public Response updateConfiguration(@PathParam("namespace") String namespace, @PathParam("name") String name, MappingConfigurationDto dto) {
 
 
         Repository repository = loadRepository(namespace, name);
