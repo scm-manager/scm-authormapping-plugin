@@ -1,6 +1,10 @@
 // @flow
 import React from "react";
-import { InputField, SubmitButton } from "@scm-manager/ui-components";
+import {
+  InputField,
+  SubmitButton,
+  validation
+} from "@scm-manager/ui-components";
 import { translate } from "react-i18next";
 
 type Props = {
@@ -32,7 +36,6 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
   render() {
     const { t } = this.props;
     return (
-      <>
         <form>
           <InputField
             onChange={this.onChange}
@@ -50,7 +53,10 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
           />
           <InputField
             onChange={this.onChange}
-            validationError={false}
+            validationError={
+              this.state.mappedMail !== "" &&
+              !validation.isMailValid(this.state.mappedMail)
+            }
             type="email"
             label={t("scm-authormapping-plugin.config.form.mappedMail")}
             value={this.state.mappedMail}
@@ -62,13 +68,13 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
             disabled={!this.state.valid}
           />
         </form>
-      </>
     );
   }
 
   validateState = () => {
     const { author, mappedName, mappedMail } = this.state;
-    const valid = !!author && !!mappedName && !!mappedMail;
+    const valid =
+      !!author && !!mappedName && !!mappedMail && validation.isMailValid(mappedMail);
 
     this.setState({ ...this.state, valid });
   };
