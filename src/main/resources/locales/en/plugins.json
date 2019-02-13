@@ -8,7 +8,8 @@
         "mappedName": "Mapped Name",
         "mappedMail": "Mapped E-Mail",
         "add": "Add Mapping",
-        "remove": "Remove Mapping"
+        "remove": "Remove Mapping",
+        "enableAuto": "Enable Auto Mapping"
       }
     }
   }

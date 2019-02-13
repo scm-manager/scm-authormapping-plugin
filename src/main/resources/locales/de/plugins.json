@@ -8,7 +8,8 @@
         "mappedName": "Gemapter Name",
         "mappedMail": "Gemapte E-Mail",
         "add": "Mapping hinzufügen",
-        "remove": "Mapping entfernen"
+        "remove": "Mapping entfernen",
+        "enableAuto": "Auto-Mapping aktivieren"
       }
     }
   }

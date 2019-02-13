@@ -9,6 +9,7 @@ import type {
 import AuthorMappingFormComponent from "./AuthorMappingFormComponent";
 import DeleteMappingButton from "./DeleteMappingButton";
 import { translate } from "react-i18next";
+import { Checkbox } from "@scm-manager/ui-components";
 
 type Props = {
   initialConfiguration: AuthorMappingConfiguration,
@@ -34,13 +35,40 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <>
         {this.renderTable()}
+        <Checkbox
+          name="enableAutoMapping"
+          label={t("scm-authormapping-plugin.config.form.enableAuto")}
+          checked={this.state.configuration.enableAutoMapping}
+          onChange={this.enableAutoMappingChanged}
+        />
         <AuthorMappingFormComponent onSubmit={this.addMapping} />
       </>
     );
   }
+
+  enableAutoMappingChanged = (value: boolean) => {
+    this.setState(
+      {
+        ...this.state,
+        configuration: {
+          ...this.state.configuration,
+          enableAutoMapping: value
+        }
+      },
+      this.configChanged()
+    );
+  };
+
+  configChanged = () => {
+    this.props.onConfigurationChange(
+      this.state.configuration,
+      this.isStateValid()
+    );
+  };
 
   renderTable = () => {
     const { t } = this.props;
@@ -124,11 +152,7 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
           manualMapping: newMapping
         }
       },
-      () =>
-        this.props.onConfigurationChange(
-          this.state.configuration,
-          this.isStateValid()
-        )
+      this.configChanged()
     );
   };
 }
