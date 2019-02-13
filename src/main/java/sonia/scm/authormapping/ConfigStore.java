@@ -7,12 +7,12 @@ import sonia.scm.store.ConfigurationStore;
 import sonia.scm.store.ConfigurationStoreFactory;
 
 @Singleton
-public class AuthorMappingConfigStore {
+public class ConfigStore {
     public static final String NAME = "authormapping";
     private ConfigurationStoreFactory storeFactory;
 
     @Inject
-    public AuthorMappingConfigStore(ConfigurationStoreFactory configurationStoreFactory) {
+    public ConfigStore(ConfigurationStoreFactory configurationStoreFactory) {
         this.storeFactory = configurationStoreFactory;
     }
 

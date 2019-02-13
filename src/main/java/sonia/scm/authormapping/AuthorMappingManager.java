@@ -6,10 +6,10 @@ import sonia.scm.repository.Repository;
 import java.util.HashMap;
 
 public class AuthorMappingManager {
-    private AuthorMappingConfigStore configStore;
+    private ConfigStore configStore;
 
     @Inject
-    public AuthorMappingManager(AuthorMappingConfigStore configStore) {
+    public AuthorMappingManager(ConfigStore configStore) {
         this.configStore = configStore;
     }
 

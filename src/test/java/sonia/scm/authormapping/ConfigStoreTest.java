@@ -18,17 +18,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AuthorMappingConfigStoreTest {
+public class ConfigStoreTest {
 
     ConfigurationStore<MappingConfiguration> configurationStore;
 
-    AuthorMappingConfigStore authorMappingConfigStore;
+    ConfigStore configStore;
 
     @Before
     public void setUp() {
         configurationStore = mock(ConfigurationStore.class);
         ConfigurationStoreFactory storeFactory = new InMemoryConfigurationStoreFactory(configurationStore);
-        authorMappingConfigStore = new AuthorMappingConfigStore(storeFactory);
+        configStore = new ConfigStore(storeFactory);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class AuthorMappingConfigStoreTest {
         MappingConfiguration mappingConfiguration = createTestConfiguration();
         when(configurationStore.get()).thenReturn(mappingConfiguration);
 
-        authorMappingConfigStore.getConfiguration(heartOfGold);
+        configStore.getConfiguration(heartOfGold);
 
         verify(configurationStore).get();
     }
@@ -46,7 +46,7 @@ public class AuthorMappingConfigStoreTest {
     public void shouldSaveConfig() {
         Repository heartOfGold = RepositoryTestData.createHeartOfGold();
         MappingConfiguration testConfiguration = createTestConfiguration();
-        authorMappingConfigStore.storeConfiguration(testConfiguration, heartOfGold);
+        configStore.storeConfiguration(testConfiguration, heartOfGold);
         verify(configurationStore).set(testConfiguration);
     }
 

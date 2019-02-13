@@ -11,7 +11,6 @@ import sonia.scm.api.v2.resources.BaseMapper;
 import sonia.scm.api.v2.resources.LinkBuilder;
 import sonia.scm.api.v2.resources.ScmPathInfoStore;
 import sonia.scm.repository.Repository;
-import sonia.scm.repository.RepositoryPermission;
 import sonia.scm.repository.RepositoryPermissions;
 
 import javax.inject.Inject;
