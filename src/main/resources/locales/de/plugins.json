@@ -1,0 +1,15 @@
+{
+  "scm-authormapping-plugin": {
+    "nav-link": "Autoren-Mapping",
+    "config": {
+      "title": "Autoren-Mapping Konfiguration",
+      "form": {
+        "author": "Autor",
+        "mappedName": "Gemapter Name",
+        "mappedMail": "Gemapte E-Mail",
+        "add": "Mapping hinzufügen",
+        "remove": "Mapping entfernen"
+      }
+    }
+  }
+}

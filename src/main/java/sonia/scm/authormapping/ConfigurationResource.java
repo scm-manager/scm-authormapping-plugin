@@ -41,7 +41,7 @@ public class ConfigurationResource {
         RepositoryPermissions.permissionRead(repository).check();
 
         MappingConfiguration configuration = mappingManager.getConfiguration(repository);
-        return Response.ok(mapper.map(configuration)).build();
+        return Response.ok(mapper.map(configuration, repository)).build();
     }
 
     @PUT
