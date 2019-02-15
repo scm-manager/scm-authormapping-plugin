@@ -43,6 +43,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
             label={t("scm-authormapping-plugin.config.form.author")}
             value={this.state.author}
             name="author"
+            helpText={t("scm-authormapping-plugin.config.form.author-helptext")}
           />
           <InputField
             onChange={this.onChange}
@@ -50,6 +51,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
             label={t("scm-authormapping-plugin.config.form.mappedName")}
             value={this.state.mappedName}
             name="mappedName"
+            helpText={t("scm-authormapping-plugin.config.form.mappedName-helptext")}
           />
           <InputField
             onChange={this.onChange}
@@ -61,6 +63,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
             label={t("scm-authormapping-plugin.config.form.mappedMail")}
             value={this.state.mappedMail}
             name="mappedMail"
+            helpText={t("scm-authormapping-plugin.config.form.mappedMail-helptext")}
           />
           <SubmitButton
             label={t("scm-authormapping-plugin.config.form.add")}

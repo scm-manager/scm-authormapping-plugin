@@ -67,7 +67,7 @@ public class MappingResolver {
 
     /**
      * Resolve the author name of the user in the following order:
-     * - mapping configuration
+     * - Mapping configuration
      * - cache (sonia.cache.authormapping)
      * - scm-manager user database
      */

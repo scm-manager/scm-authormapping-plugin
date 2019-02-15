@@ -4,7 +4,7 @@ import type {
   AuthorMapping,
   AuthorMappingConfiguration,
   Person,
-  SingleMapping
+  Mapping
 } from "./types";
 import AuthorMappingFormComponent from "./AuthorMappingFormComponent";
 import DeleteMappingButton from "./DeleteMappingButton";
@@ -53,7 +53,6 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   enableAutoMappingChanged = (value: boolean) => {
     this.setState(
       {
-        ...this.state,
         configuration: {
           ...this.state.configuration,
           enableAutoMapping: value
@@ -143,16 +142,15 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
     this.updateManualMapping(newMapping);
   };
 
-  updateManualMapping = (newMapping: SingleMapping) => {
+  updateManualMapping = (newMapping: Mapping) => {
     this.setState(
       {
-        ...this.state,
         configuration: {
           ...this.state.configuration,
           manualMapping: newMapping
         }
       },
-      this.configChanged()
+      this.configChanged
     );
   };
 }

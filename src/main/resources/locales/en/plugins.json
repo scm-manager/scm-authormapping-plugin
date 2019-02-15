@@ -5,8 +5,11 @@
       "title": "Author Mapping Configuration",
       "form": {
         "author": "Author",
+        "author-helptext": "Author name to map.",
         "mappedName": "Mapped Name",
+        "mappedName-helptext": "Mapped display name",
         "mappedMail": "Mapped E-Mail",
+        "mappedMail-helptext": "Mapped user's new E-Mail",
         "add": "Add Mapping",
         "remove": "Remove Mapping",
         "enableAuto": "Enable Auto Mapping"
