@@ -1,0 +1,7 @@
+<repository-permissions>
+  <verbs>
+    <verb>authormapping</verb>
+  </verbs>
+  <roles>
+  </roles>
+</repository-permissions>

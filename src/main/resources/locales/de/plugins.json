@@ -15,5 +15,23 @@
         "enableAuto": "Auto-Mapping aktivieren"
       }
     }
+  },
+  "permissions": {
+    "repository": {
+      "authormapping": {
+        "*": {
+          "displayName": "Author-Mapping bearbeiten",
+          "description": "Darf das Autoren-Mapping für alle Repositories bearbeiten."
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "authormapping": {
+        "displayName": "Autoren-Mapping",
+        "description": "Darf das Autoren-Mapping bearbeiten."
+      }
+    }
   }
 }

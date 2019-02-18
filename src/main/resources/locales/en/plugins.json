@@ -15,5 +15,23 @@
         "enableAuto": "Enable Auto Mapping"
       }
     }
+  },
+  "permissions": {
+    "repository": {
+      "authormapping": {
+        "*": {
+          "displayName": "Modify author mapping",
+          "description": "May read and modify the author mappings for all repositories"
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "authormapping": {
+        "displayName": "author mapping",
+        "description": "May read and modify the author mappings"
+      }
+    }
   }
 }

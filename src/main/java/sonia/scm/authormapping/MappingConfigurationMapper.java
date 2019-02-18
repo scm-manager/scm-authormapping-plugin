@@ -32,7 +32,7 @@ public abstract class MappingConfigurationMapper extends BaseMapper<MappingConfi
     @AfterMapping
     public void addLinks(MappingConfiguration source, @MappingTarget MappingConfigurationDto target, @Context Repository repository) {
         Links.Builder linksBuilder = linkingTo().self(self(repository));
-        if (RepositoryPermissions.modify(repository).isPermitted()) {
+        if (PermissionCheck.isPermitted(repository)) {
             linksBuilder.single(Link.link("update", update(repository)));
 
         }
