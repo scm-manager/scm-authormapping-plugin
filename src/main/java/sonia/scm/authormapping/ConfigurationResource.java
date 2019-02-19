@@ -5,7 +5,6 @@ import sonia.scm.ContextEntry;
 import sonia.scm.repository.NamespaceAndName;
 import sonia.scm.repository.Repository;
 import sonia.scm.repository.RepositoryManager;
-import sonia.scm.repository.RepositoryPermissions;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
