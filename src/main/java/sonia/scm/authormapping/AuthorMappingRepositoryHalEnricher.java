@@ -8,7 +8,6 @@ import sonia.scm.api.v2.resources.LinkBuilder;
 import sonia.scm.api.v2.resources.ScmPathInfoStore;
 import sonia.scm.plugin.Extension;
 import sonia.scm.repository.Repository;
-import sonia.scm.repository.RepositoryPermissions;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -26,7 +25,7 @@ public class AuthorMappingRepositoryHalEnricher implements HalEnricher {
     @Override
     public void enrich(HalEnricherContext context, HalAppender appender) {
         Repository repository = context.oneRequireByType(Repository.class);
-        if (RepositoryPermissions.read(repository).isPermitted()) {
+        if (PermissionCheck.isPermitted(repository)) {
           String link = new LinkBuilder(scmPathInfoStoreProvider.get().get(), ConfigurationResource.class)
             .method("getConfiguration")
             .parameters(repository.getNamespace(), repository.getName())
