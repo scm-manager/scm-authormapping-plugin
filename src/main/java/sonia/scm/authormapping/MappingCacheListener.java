@@ -67,10 +67,10 @@ public class MappingCacheListener {
         if (cache != null) {
             cache.clear();
 
-            logger.debug("clear mapping cache because user {} has changed",
+            logger.debug("clear Mapping cache because user {} has changed",
                     user.getName());
         } else {
-            logger.warn("mapping cache is not available");
+            logger.warn("Mapping cache is not available");
         }
     }
 

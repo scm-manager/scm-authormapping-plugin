@@ -11,7 +11,6 @@ import sonia.scm.api.v2.resources.BaseMapper;
 import sonia.scm.api.v2.resources.LinkBuilder;
 import sonia.scm.api.v2.resources.ScmPathInfoStore;
 import sonia.scm.repository.Repository;
-import sonia.scm.repository.RepositoryPermissions;
 
 import javax.inject.Inject;
 
@@ -32,7 +31,7 @@ public abstract class MappingConfigurationMapper extends BaseMapper<MappingConfi
     @AfterMapping
     public void addLinks(MappingConfiguration source, @MappingTarget MappingConfigurationDto target, @Context Repository repository) {
         Links.Builder linksBuilder = linkingTo().self(self(repository));
-        if (RepositoryPermissions.modify(repository).isPermitted()) {
+        if (PermissionCheck.isPermitted(repository)) {
             linksBuilder.single(Link.link("update", update(repository)));
 
         }

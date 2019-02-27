@@ -5,7 +5,6 @@ import sonia.scm.ContextEntry;
 import sonia.scm.repository.NamespaceAndName;
 import sonia.scm.repository.Repository;
 import sonia.scm.repository.RepositoryManager;
-import sonia.scm.repository.RepositoryPermissions;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -38,7 +37,7 @@ public class ConfigurationResource {
     public Response getConfiguration(@PathParam("namespace") String namespace, @PathParam("name") String name) {
 
         Repository repository = loadRepository(namespace, name);
-        RepositoryPermissions.permissionRead(repository).check();
+        PermissionCheck.check(repository);
 
         MappingConfiguration configuration = mappingManager.getConfiguration(repository);
         return Response.ok(mapper.map(configuration, repository)).build();
@@ -51,7 +50,7 @@ public class ConfigurationResource {
 
 
         Repository repository = loadRepository(namespace, name);
-        RepositoryPermissions.modify(repository).check();
+        PermissionCheck.check(repository);
         mappingManager.saveConfiguration(mapper.map(dto), repository);
         return Response.noContent().build();
     }

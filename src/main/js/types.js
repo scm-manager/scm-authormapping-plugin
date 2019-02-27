@@ -5,11 +5,11 @@ export type Person = {
   mail: string
 };
 
-export type SingleMapping = { [string]: Person };
+export type Mapping = { [string]: Person };
 
 export type AuthorMappingConfiguration = {
   enableAutoMapping: boolean,
-  manualMapping: SingleMapping,
+  manualMapping: Mapping,
   _links: Links
 };
 

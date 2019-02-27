@@ -5,11 +5,32 @@
       "title": "Autoren-Mapping Konfiguration",
       "form": {
         "author": "Autor",
+        "author-helptext": "Ursprünglicher Name des Autors",
         "mappedName": "Gemapter Name",
+        "mappedName-helptext": "Neuer Anzeigename des Autors",
         "mappedMail": "Gemapte E-Mail",
+        "mappedMail-helptext": "Neue E-Mail-Adresse des Autors",
         "add": "Mapping hinzufügen",
         "remove": "Mapping entfernen",
         "enableAuto": "Auto-Mapping aktivieren"
+      }
+    }
+  },
+  "permissions": {
+    "repository": {
+      "authormapping": {
+        "*": {
+          "displayName": "Author-Mapping bearbeiten",
+          "description": "Darf das Autoren-Mapping für alle Repositories bearbeiten."
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "authormapping": {
+        "displayName": "Autoren-Mapping",
+        "description": "Darf das Autoren-Mapping bearbeiten."
       }
     }
   }

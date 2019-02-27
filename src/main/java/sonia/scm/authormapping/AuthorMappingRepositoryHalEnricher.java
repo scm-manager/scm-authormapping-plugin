@@ -25,10 +25,12 @@ public class AuthorMappingRepositoryHalEnricher implements HalEnricher {
     @Override
     public void enrich(HalEnricherContext context, HalAppender appender) {
         Repository repository = context.oneRequireByType(Repository.class);
-        String link = new LinkBuilder(scmPathInfoStoreProvider.get().get(), ConfigurationResource.class)
-                .method("getConfiguration")
-                .parameters(repository.getNamespace(), repository.getName())
-                .href();
-        appender.appendLink("authorMappingConfig", link);
+        if (PermissionCheck.isPermitted(repository)) {
+          String link = new LinkBuilder(scmPathInfoStoreProvider.get().get(), ConfigurationResource.class)
+            .method("getConfiguration")
+            .parameters(repository.getNamespace(), repository.getName())
+            .href();
+          appender.appendLink("authorMappingConfig", link);
+        }
     }
 }
