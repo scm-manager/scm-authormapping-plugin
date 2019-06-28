@@ -13,9 +13,7 @@ import sonia.scm.store.ConfigurationStore;
 import sonia.scm.store.ConfigurationStoreFactory;
 import sonia.scm.store.InMemoryConfigurationStoreFactory;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigStoreTest {
@@ -24,30 +22,29 @@ public class ConfigStoreTest {
 
     ConfigStore configStore;
 
-    @Before
+  Repository heartOfGold = RepositoryTestData.createHeartOfGold();
+
+  @Before
     public void setUp() {
-        configurationStore = mock(ConfigurationStore.class);
-        ConfigurationStoreFactory storeFactory = new InMemoryConfigurationStoreFactory(configurationStore);
+        ConfigurationStoreFactory storeFactory = new InMemoryConfigurationStoreFactory();
+        configurationStore = storeFactory.withType(MappingConfiguration.class).withName(ConfigStore.NAME).forRepository(heartOfGold.getId()).build();
         configStore = new ConfigStore(storeFactory);
     }
 
     @Test
     public void shouldReturnExistingConfig() {
-        Repository heartOfGold = RepositoryTestData.createHeartOfGold();
         MappingConfiguration mappingConfiguration = createTestConfiguration();
-        when(configurationStore.get()).thenReturn(mappingConfiguration);
+        configurationStore.set(mappingConfiguration);
 
-        configStore.getConfiguration(heartOfGold);
-
-        verify(configurationStore).get();
+        assertThat(configStore.getConfiguration(heartOfGold)).isSameAs(mappingConfiguration);
     }
 
     @Test
     public void shouldSaveConfig() {
-        Repository heartOfGold = RepositoryTestData.createHeartOfGold();
         MappingConfiguration testConfiguration = createTestConfiguration();
         configStore.storeConfiguration(testConfiguration, heartOfGold);
-        verify(configurationStore).set(testConfiguration);
+
+        assertThat(configurationStore.get()).isSameAs(testConfiguration);
     }
 
     private MappingConfiguration createTestConfiguration() {
