@@ -1,5 +1,6 @@
 package sonia.scm.authormapping.update;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,10 @@ import sonia.scm.version.Version;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static sonia.scm.update.V1PropertyReader.REPOSITORY_PROPERTY_READER;
 import static sonia.scm.version.Version.*;
 
@@ -40,22 +44,31 @@ public class AuthorMappingV2ConfigMigrationUpdateStep implements UpdateStep {
     v1PropertyDAO
       .getProperties(REPOSITORY_PROPERTY_READER)
       .havingAnyOf("sonia.authormapping.manual-mapping")
-      .forEachEntry((key, properties) ->  storeConfiguration(buildConfig(key, properties), key));
+      .forEachEntry((key, properties) -> {
+        buildConfig(key, properties).ifPresent(mappingConfiguration ->
+          storeConfiguration(mappingConfiguration, key));
+      });
   }
 
-  private MappingConfiguration buildConfig(String repositoryId, V1Properties properties) {
-    LOG.debug("migrating repository specific redmine configuration for repository id {}", repositoryId);
+  private Optional<MappingConfiguration> buildConfig(String repositoryId, V1Properties properties) {
+    LOG.debug("migrating repository specific authormapping configuration for repository id {}", repositoryId);
 
-    String[] splittedProperties = properties.get("sonia.authormapping.manual-mapping").split(",");
-    String username = splittedProperties[0];
-    Person person = new Person(splittedProperties[1], splittedProperties[2]);
+    String userProperties = properties.get("sonia.authormapping.manual-mapping");
+
+    if (Strings.isNullOrEmpty(userProperties)) {
+      return empty();
+    }
+
+    String[] splittedUserProperties = userProperties.split(",");
+    String username = splittedUserProperties[0];
+    Person person = new Person(splittedUserProperties[1], splittedUserProperties[2]);
     Map<String, Person> mappedUser = new HashMap<>();
     mappedUser.put(username, person);
 
-    return new MappingConfiguration(
-      properties.getBoolean("sonia.authormapping.enableAutoMapping").get(),
+    return of(new MappingConfiguration(
+      properties.getBoolean("sonia.authormapping.enableAutoMapping").orElse(true),
       mappedUser
-    );
+    ));
   }
 
   private void storeConfiguration(MappingConfiguration configuration, String repositoryId) {
