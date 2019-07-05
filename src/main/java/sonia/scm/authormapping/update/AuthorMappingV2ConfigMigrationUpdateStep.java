@@ -53,17 +53,20 @@ public class AuthorMappingV2ConfigMigrationUpdateStep implements UpdateStep {
   private Optional<MappingConfiguration> buildConfig(String repositoryId, V1Properties properties) {
     LOG.debug("migrating repository specific authormapping configuration for repository id {}", repositoryId);
 
-    String userProperties = properties.get("sonia.authormapping.manual-mapping");
+    String usersProperties = properties.get("sonia.authormapping.manual-mapping");
 
-    if (Strings.isNullOrEmpty(userProperties)) {
+    if (Strings.isNullOrEmpty(usersProperties)) {
       return empty();
     }
-
-    String[] splittedUserProperties = userProperties.split(",");
-    String username = splittedUserProperties[0];
-    Person person = new Person(splittedUserProperties[1], splittedUserProperties[2]);
+    String[] splittedUsersProperties = usersProperties.split(";");
     Map<String, Person> mappedUser = new HashMap<>();
-    mappedUser.put(username, person);
+
+    for (String userProperties : splittedUsersProperties) {
+      String[] splittedUserProperties = userProperties.split(",");
+      String username = splittedUserProperties[0];
+      Person person = new Person(splittedUserProperties[1], splittedUserProperties[2]);
+      mappedUser.put(username, person);
+    }
 
     return of(new MappingConfiguration(
       properties.getBoolean("sonia.authormapping.enableAutoMapping").orElse(true),
