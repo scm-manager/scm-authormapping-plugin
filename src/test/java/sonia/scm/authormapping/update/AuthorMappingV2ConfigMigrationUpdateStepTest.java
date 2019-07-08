@@ -68,6 +68,20 @@ public class AuthorMappingV2ConfigMigrationUpdateStepTest {
     assertThat(configStore.getConfiguration(REPO_NAME).isEnableAutoMapping()).isTrue();
   }
 
+  @Test
+  public void skipRepositoriesWithoutAuthorMappingConfig() {
+    Map<String, String> mockedValues =
+      ImmutableMap.of(
+        "any", "value"
+      );
+
+    testUtil.mockRepositoryProperties(new V1PropertyDaoTestUtil.PropertiesForRepository(REPO_NAME, mockedValues));
+
+    updateStep.doUpdate();
+
+    assertThat(configStore.getConfiguration(REPO_NAME)).isNull();
+  }
+
   private MappingConfiguration createMappingObject(boolean enableAutoMapping, String user, String displayName, String email) {
     Person person = new Person(displayName, email);
     Map<String, Person> personMap = new HashMap<>();
