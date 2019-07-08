@@ -4,12 +4,11 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sonia.scm.authormapping.ConfigStore;
 import sonia.scm.authormapping.MappingConfiguration;
 import sonia.scm.migration.UpdateStep;
 import sonia.scm.plugin.Extension;
 import sonia.scm.repository.Person;
-import sonia.scm.store.ConfigurationStore;
-import sonia.scm.store.ConfigurationStoreFactory;
 import sonia.scm.update.V1Properties;
 import sonia.scm.update.V1PropertyDAO;
 import sonia.scm.version.Version;
@@ -26,17 +25,15 @@ import static sonia.scm.version.Version.*;
 @Extension
 public class AuthorMappingV2ConfigMigrationUpdateStep implements UpdateStep {
 
-  public static final String STORE_NAME = "authormapping";
-
   private static final Logger LOG = LoggerFactory.getLogger(AuthorMappingV2ConfigMigrationUpdateStep.class);
 
   private final V1PropertyDAO v1PropertyDAO;
-  private final ConfigurationStoreFactory storeFactory;
+  private final ConfigStore configStore;
 
   @Inject
-  public AuthorMappingV2ConfigMigrationUpdateStep(V1PropertyDAO v1PropertyDAO, ConfigurationStoreFactory storeFactory) {
+  public AuthorMappingV2ConfigMigrationUpdateStep(V1PropertyDAO v1PropertyDAO, ConfigStore configStore) {
     this.v1PropertyDAO = v1PropertyDAO;
-    this.storeFactory = storeFactory;
+    this.configStore = configStore;
   }
 
   @Override
@@ -46,7 +43,7 @@ public class AuthorMappingV2ConfigMigrationUpdateStep implements UpdateStep {
       .havingAnyOf("sonia.authormapping.manual-mapping")
       .forEachEntry((key, properties) -> {
         buildConfig(key, properties).ifPresent(mappingConfiguration ->
-          storeConfiguration(mappingConfiguration, key));
+          configStore.storeConfiguration(mappingConfiguration, key));
       });
   }
 
@@ -72,14 +69,6 @@ public class AuthorMappingV2ConfigMigrationUpdateStep implements UpdateStep {
       properties.getBoolean("sonia.authormapping.enableAutoMapping").orElse(true),
       mappedUser
     ));
-  }
-
-  private void storeConfiguration(MappingConfiguration configuration, String repositoryId) {
-    createStore(repositoryId).set(configuration);
-  }
-
-  private ConfigurationStore<MappingConfiguration> createStore(String repositoryId) {
-    return storeFactory.withType(MappingConfiguration.class).withName(STORE_NAME).forRepository(repositoryId).build();
   }
 
   @Override
