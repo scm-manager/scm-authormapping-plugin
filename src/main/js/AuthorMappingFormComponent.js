@@ -1,11 +1,11 @@
 // @flow
 import React from "react";
+import { translate } from "react-i18next";
 import {
   InputField,
   SubmitButton,
   validation
 } from "@scm-manager/ui-components";
-import { translate } from "react-i18next";
 
 type Props = {
   author?: string,
@@ -36,48 +36,55 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
   render() {
     const { t } = this.props;
     return (
-        <form>
-          <InputField
-            onChange={this.onChange}
-            validationError={false}
-            label={t("scm-authormapping-plugin.config.form.author")}
-            value={this.state.author}
-            name="author"
-            helpText={t("scm-authormapping-plugin.config.form.author-helptext")}
-          />
-          <InputField
-            onChange={this.onChange}
-            validationError={false}
-            label={t("scm-authormapping-plugin.config.form.mappedName")}
-            value={this.state.mappedName}
-            name="mappedName"
-            helpText={t("scm-authormapping-plugin.config.form.mappedName-helptext")}
-          />
-          <InputField
-            onChange={this.onChange}
-            validationError={
-              this.state.mappedMail !== "" &&
-              !validation.isMailValid(this.state.mappedMail)
-            }
-            type="email"
-            label={t("scm-authormapping-plugin.config.form.mappedMail")}
-            value={this.state.mappedMail}
-            name="mappedMail"
-            helpText={t("scm-authormapping-plugin.config.form.mappedMail-helptext")}
-          />
-          <SubmitButton
-            label={t("scm-authormapping-plugin.config.form.add")}
-            action={this.onAdd}
-            disabled={!this.state.valid}
-          />
-        </form>
+      <form>
+        <InputField
+          onChange={this.onChange}
+          validationError={false}
+          label={t("scm-authormapping-plugin.config.form.author")}
+          value={this.state.author}
+          name="author"
+          helpText={t("scm-authormapping-plugin.config.form.author-helptext")}
+        />
+        <InputField
+          onChange={this.onChange}
+          validationError={false}
+          label={t("scm-authormapping-plugin.config.form.mappedName")}
+          value={this.state.mappedName}
+          name="mappedName"
+          helpText={t(
+            "scm-authormapping-plugin.config.form.mappedName-helptext"
+          )}
+        />
+        <InputField
+          onChange={this.onChange}
+          validationError={
+            this.state.mappedMail !== "" &&
+            !validation.isMailValid(this.state.mappedMail)
+          }
+          type="email"
+          label={t("scm-authormapping-plugin.config.form.mappedMail")}
+          value={this.state.mappedMail}
+          name="mappedMail"
+          helpText={t(
+            "scm-authormapping-plugin.config.form.mappedMail-helptext"
+          )}
+        />
+        <SubmitButton
+          label={t("scm-authormapping-plugin.config.form.add")}
+          action={this.onAdd}
+          disabled={!this.state.valid}
+        />
+      </form>
     );
   }
 
   validateState = () => {
     const { author, mappedName, mappedMail } = this.state;
     const valid =
-      !!author && !!mappedName && !!mappedMail && validation.isMailValid(mappedMail);
+      !!author &&
+      !!mappedName &&
+      !!mappedMail &&
+      validation.isMailValid(mappedMail);
 
     this.setState({ ...this.state, valid });
   };

@@ -1,5 +1,7 @@
 // @flow
 import React from "react";
+import { translate } from "react-i18next";
+import { Checkbox } from "@scm-manager/ui-components";
 import type {
   AuthorMapping,
   AuthorMappingConfiguration,
@@ -8,8 +10,6 @@ import type {
 } from "./types";
 import AuthorMappingFormComponent from "./AuthorMappingFormComponent";
 import DeleteMappingButton from "./DeleteMappingButton";
-import { translate } from "react-i18next";
-import { Checkbox } from "@scm-manager/ui-components";
 
 type Props = {
   initialConfiguration: AuthorMappingConfiguration,

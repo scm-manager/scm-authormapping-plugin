@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
+import { translate } from "react-i18next";
 import { Configuration, Subtitle } from "@scm-manager/ui-components";
 import AuthorMappingConfigurationForm from "./AuthorMappingConfigurationForm";
-import { translate } from "react-i18next";
 
 type Props = {
   link: string,

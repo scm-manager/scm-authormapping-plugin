@@ -15,25 +15,20 @@
     <description>Lookup and transform usernames to the real names stored in the scm-manager user database or in a mapping table</description>
     <packaging>smp</packaging>
 
-
     <scm>
-        <connection>scm:git:https://github.com/scm-manager/scm-authormapping-plugin</connection>
-        <developerConnection>scm:git:https://github.com/scm-manager/scm-authormapping-plugin</developerConnection>
-        <url>https://github.com/scm-manager/scm-authormapping-plugin</url>
-        <tag>HEAD</tag>
+      <connection>scm:git:https://github.com/scm-manager/scm-authormapping-plugin</connection>
+      <developerConnection>scm:git:https://github.com/scm-manager/scm-authormapping-plugin</developerConnection>
+      <url>https://github.com/scm-manager/scm-authormapping-plugin</url>
+      <tag>HEAD</tag>
     </scm>
-  
-    <dependencies>
-
-    </dependencies>
 
     <repositories>
 
-        <repository>
-            <id>maven.scm-manager.org</id>
-            <name>scm-manager release repository</name>
-            <url>http://maven.scm-manager.org/nexus/content/groups/public</url>
-        </repository>
+      <repository>
+        <id>maven.scm-manager.org</id>
+        <name>scm-manager release repository</name>
+        <url>http://maven.scm-manager.org/nexus/content/groups/public</url>
+      </repository>
 
     </repositories>
 
