@@ -1,12 +1,10 @@
-// @flow
 import React from "react";
-import { translate } from "react-i18next";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Configuration, Subtitle } from "@scm-manager/ui-components";
 import AuthorMappingConfigurationForm from "./AuthorMappingConfigurationForm";
 
-type Props = {
-  link: string,
-  t: string => string
+type Props = WithTranslation & {
+  link: string;
 };
 
 class ConfigurationContainer extends React.Component<Props> {
@@ -15,13 +13,10 @@ class ConfigurationContainer extends React.Component<Props> {
     return (
       <>
         <Subtitle subtitle={t("scm-authormapping-plugin.config.title")} />
-        <Configuration
-          link={link}
-          render={props => <AuthorMappingConfigurationForm {...props} />}
-        />
+        <Configuration link={link} render={props => <AuthorMappingConfigurationForm {...props} />} />
       </>
     );
   }
 }
 
-export default translate("plugins")(ConfigurationContainer);
+export default withTranslation("plugins")(ConfigurationContainer);

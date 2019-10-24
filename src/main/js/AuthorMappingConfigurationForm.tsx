@@ -1,31 +1,26 @@
-// @flow
 import React from "react";
-import { translate } from "react-i18next";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Checkbox } from "@scm-manager/ui-components";
-import type {
-  AuthorMapping,
-  AuthorMappingConfiguration,
-  Person,
-  Mapping
-} from "./types";
+import { AuthorMapping, AuthorMappingConfiguration, Person, Mapping } from "./types";
 import AuthorMappingFormComponent from "./AuthorMappingFormComponent";
 import DeleteMappingButton from "./DeleteMappingButton";
 
-type Props = {
-  initialConfiguration: AuthorMappingConfiguration,
-  onConfigurationChange: (AuthorMappingConfiguration, boolean) => void,
-  readOnly: boolean,
-
-  t: string => string
+type Props = WithTranslation & {
+  initialConfiguration: AuthorMappingConfiguration;
+  onConfigurationChange: (p1: AuthorMappingConfiguration, p2: boolean) => void;
+  readOnly: boolean;
 };
+
 type State = {
-  configuration: AuthorMappingConfiguration
+  configuration: AuthorMappingConfiguration;
 };
 
 class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { configuration: props.initialConfiguration };
+    this.state = {
+      configuration: props.initialConfiguration
+    };
   }
 
   isStateValid = () => {
@@ -63,10 +58,7 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   };
 
   configChanged = () => {
-    this.props.onConfigurationChange(
-      this.state.configuration,
-      this.isStateValid()
-    );
+    this.props.onConfigurationChange(this.state.configuration, this.isStateValid());
   };
 
   renderTable = () => {
@@ -120,7 +112,7 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   removeMapping = (mapping: AuthorMapping) => {
     const currentMapping = this.state.configuration.manualMapping;
 
-    let newMapping = {};
+    const newMapping = {};
     Object.keys(currentMapping)
       .filter(key => key !== mapping.author)
       .forEach(key => {
@@ -155,4 +147,4 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
   };
 }
 
-export default translate("plugins")(AuthorMappingConfigurationForm);
+export default withTranslation("plugins")(AuthorMappingConfigurationForm);

@@ -1,4 +1,3 @@
-// @flow
 import { ConfigurationBinder as cfgBinder } from "@scm-manager/ui-components";
 import ConfigurationContainer from "./ConfigurationContainer";
 

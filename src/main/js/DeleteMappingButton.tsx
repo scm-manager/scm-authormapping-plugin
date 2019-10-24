@@ -1,13 +1,13 @@
-// @flow
 import React from "react";
 import { DeleteButton } from "@scm-manager/ui-components";
-import type { AuthorMapping } from "./types";
+import { AuthorMapping } from "./types";
 
 type Props = {
-  mapping: AuthorMapping,
-  onDelete: AuthorMapping => void,
-  label: string
+  mapping: AuthorMapping;
+  onDelete: (p: AuthorMapping) => void;
+  label: string;
 };
+
 type State = {};
 
 class DeleteMappingButton extends React.Component<Props, State> {

@@ -1,25 +1,19 @@
-// @flow
 import React from "react";
-import { translate } from "react-i18next";
-import {
-  InputField,
-  SubmitButton,
-  validation
-} from "@scm-manager/ui-components";
+import { withTranslation, WithTranslation } from "react-i18next";
+import { InputField, SubmitButton, validation } from "@scm-manager/ui-components";
 
-type Props = {
-  author?: string,
-  mappedName?: string,
-  mappedMail?: string,
-  onSubmit: (author: string, mappedName: string, mappedMail: string) => void,
-
-  t: string => string
+type Props = WithTranslation & {
+  author?: string;
+  mappedName?: string;
+  mappedMail?: string;
+  onSubmit: (author: string, mappedName: string, mappedMail: string) => void;
 };
+
 type State = {
-  author: string,
-  mappedName: string,
-  mappedMail: string,
-  valid: boolean
+  author: string;
+  mappedName: string;
+  mappedMail: string;
+  valid: boolean;
 };
 
 class AuthorMappingFormComponent extends React.Component<Props, State> {
@@ -51,23 +45,16 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
           label={t("scm-authormapping-plugin.config.form.mappedName")}
           value={this.state.mappedName}
           name="mappedName"
-          helpText={t(
-            "scm-authormapping-plugin.config.form.mappedName-helptext"
-          )}
+          helpText={t("scm-authormapping-plugin.config.form.mappedName-helptext")}
         />
         <InputField
           onChange={this.onChange}
-          validationError={
-            this.state.mappedMail !== "" &&
-            !validation.isMailValid(this.state.mappedMail)
-          }
+          validationError={this.state.mappedMail !== "" && !validation.isMailValid(this.state.mappedMail)}
           type="email"
           label={t("scm-authormapping-plugin.config.form.mappedMail")}
           value={this.state.mappedMail}
           name="mappedMail"
-          helpText={t(
-            "scm-authormapping-plugin.config.form.mappedMail-helptext"
-          )}
+          helpText={t("scm-authormapping-plugin.config.form.mappedMail-helptext")}
         />
         <SubmitButton
           label={t("scm-authormapping-plugin.config.form.add")}
@@ -80,17 +67,22 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
 
   validateState = () => {
     const { author, mappedName, mappedMail } = this.state;
-    const valid =
-      !!author &&
-      !!mappedName &&
-      !!mappedMail &&
-      validation.isMailValid(mappedMail);
+    const valid = !!author && !!mappedName && !!mappedMail && validation.isMailValid(mappedMail);
 
-    this.setState({ ...this.state, valid });
+    this.setState({
+      ...this.state,
+      valid
+    });
   };
 
   onChange = (value: string, name: string) => {
-    this.setState({ ...this.state, [name]: value }, () => this.validateState());
+    this.setState(
+      {
+        ...this.state,
+        [name]: value
+      },
+      () => this.validateState()
+    );
   };
 
   onAdd = (event: Event) => {
@@ -107,4 +99,4 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
   };
 }
 
-export default translate("plugins")(AuthorMappingFormComponent);
+export default withTranslation("plugins")(AuthorMappingFormComponent);
