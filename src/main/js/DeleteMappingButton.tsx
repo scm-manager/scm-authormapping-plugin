@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteButton } from "@scm-manager/ui-components";
+import { Icon } from "@scm-manager/ui-components";
 import { AuthorMapping } from "./types";
 
 type Props = {
@@ -13,9 +13,11 @@ type State = {};
 class DeleteMappingButton extends React.Component<Props, State> {
   render() {
     return (
-      <>
-        <DeleteButton label={this.props.label} action={this.onClick} />
-      </>
+      <a className="level-item" onClick={this.onClick}>
+        <span className="icon is-small">
+          <Icon name="trash" color="inherit" title={this.props.label} />
+        </span>
+      </a>
     );
   }
 
