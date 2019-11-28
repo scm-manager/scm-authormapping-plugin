@@ -69,21 +69,24 @@ class AuthorMappingConfigurationForm extends React.Component<Props, State> {
     }
 
     const { manualMapping } = configuration;
-    return (
-      <table className="ard-table table is-hoverable is-fullwidth">
-        <thead>
-          <th>{t("scm-authormapping-plugin.config.form.author")}</th>
-          <th>{t("scm-authormapping-plugin.config.form.mappedName")}</th>
-          <th>{t("scm-authormapping-plugin.config.form.mappedMail")}</th>
-          <th />
-        </thead>
-        <tbody>
-          {Object.keys(manualMapping).map(key => {
-            return this.renderEntry(key, manualMapping[key]);
-          })}
-        </tbody>
-      </table>
-    );
+    if (manualMapping && Object.keys(manualMapping).length > 0) {
+      return (
+        <table className="table is-hoverable is-fullwidth">
+          <thead>
+            <th>{t("scm-authormapping-plugin.config.form.author")}</th>
+            <th>{t("scm-authormapping-plugin.config.form.mappedName")}</th>
+            <th>{t("scm-authormapping-plugin.config.form.mappedMail")}</th>
+            <th />
+          </thead>
+          <tbody>
+            {Object.keys(manualMapping).map(key => {
+              return this.renderEntry(key, manualMapping[key]);
+            })}
+          </tbody>
+        </table>
+      );
+    }
+    return null;
   };
 
   renderEntry = (name: string, value: Person) => {

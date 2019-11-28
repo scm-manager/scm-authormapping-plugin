@@ -1,6 +1,6 @@
 import React from "react";
 import { withTranslation, WithTranslation } from "react-i18next";
-import { InputField, SubmitButton, validation } from "@scm-manager/ui-components";
+import { InputField, SubmitButton, validation, Level } from "@scm-manager/ui-components";
 
 type Props = WithTranslation & {
   author?: string;
@@ -56,10 +56,14 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
           name="mappedMail"
           helpText={t("scm-authormapping-plugin.config.form.mappedMail-helptext")}
         />
-        <SubmitButton
-          label={t("scm-authormapping-plugin.config.form.add")}
-          action={this.onAdd}
-          disabled={!this.state.valid}
+        <Level
+          right={
+            <SubmitButton
+              label={t("scm-authormapping-plugin.config.form.add")}
+              action={this.onAdd}
+              disabled={!this.state.valid}
+            />
+          }
         />
       </form>
     );
