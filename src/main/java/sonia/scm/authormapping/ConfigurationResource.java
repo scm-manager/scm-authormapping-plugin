@@ -45,7 +45,12 @@ public class ConfigurationResource {
     @GET
     @Path("/{namespace}/{name}")
     @Produces({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get authormapping configuration", description = "Returns the authormapping configuration.", tags = "AuthorMapping Plugin")
+    @Operation(
+      summary = "Get authormapping configuration",
+      description = "Returns the authormapping configuration.",
+      tags = "AuthorMapping Plugin",
+      operationId = "authormapping_get_config"
+    )
     @ApiResponse(
       responseCode = "200",
       description = "success",
@@ -76,7 +81,12 @@ public class ConfigurationResource {
     @PUT
     @Path("/{namespace}/{name}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Operation(summary = "Update authormapping configuration", description = "Modifies the authormapping configuration.", tags = "AuthorMapping Plugin")
+    @Operation(
+      summary = "Update authormapping configuration",
+      description = "Modifies the authormapping configuration.",
+      tags = "AuthorMapping Plugin",
+      operationId = "authormapping_update_config"
+    )
     @ApiResponse(responseCode = "204", description = "update success")
     @ApiResponse(responseCode = "401", description = "not authenticated / invalid credentials")
     @ApiResponse(responseCode = "403", description = "not authorized /  the current user does not have the \"authormapping\" privilege")
