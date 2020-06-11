@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Documentation in English and German ([#4](https://github.com/scm-manager/scm-ssh-plugin/pull/4))
+- Documentation in English and German ([#4](https://github.com/scm-manager/scm-authormapping-plugin/pull/4))
 
 ## 2.0.0 - 2020-06-04
 ### Changed
