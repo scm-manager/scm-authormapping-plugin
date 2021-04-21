@@ -12,7 +12,8 @@
         "mappedMail-helptext": "Mapped user's new E-Mail",
         "add": "Add Mapping",
         "remove": "Remove Mapping",
-        "enableAuto": "Enable Auto Mapping"
+        "enableAuto": "Enable Auto Mapping",
+        "enableAutoHelpText": "Automatic mapping of persons using the database"
       }
     }
   },

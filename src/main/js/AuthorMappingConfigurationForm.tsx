@@ -141,6 +141,7 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
         label={t("scm-authormapping-plugin.config.form.enableAuto")}
         checked={configuration.enableAutoMapping}
         onChange={enableAutoMappingChanged}
+        helpText={t("scm-authormapping-plugin.config.form.enableAutoHelpText")}
       />
       <AuthorMappingFormComponent onSubmit={addMapping} />
     </>
