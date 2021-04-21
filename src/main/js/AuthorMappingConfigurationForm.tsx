@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@scm-manager/ui-components";
 import { AuthorMapping, AuthorMappingConfiguration, Person, Mapping } from "./types";
@@ -38,6 +38,10 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
   const [t] = useTranslation("plugins");
   const [configuration, setConfiguration] = useState<AuthorMappingConfiguration>(initialConfiguration);
 
+  useEffect(() => {
+    onConfigurationChange(configuration, isStateValid());
+  }, [configuration]);
+
   const isStateValid = () => {
     const { enableAutoMapping, manualMapping } = configuration;
     return enableAutoMapping !== undefined && manualMapping !== undefined;
@@ -48,11 +52,6 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
       ...configuration,
       enableAutoMapping: value
     });
-    configChanged();
-  };
-
-  const configChanged = () => {
-    onConfigurationChange(configuration, isStateValid());
   };
 
   const renderTable = () => {
@@ -133,7 +132,6 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
       ...configuration,
       manualMapping: newMapping
     });
-    configChanged();
   };
 
   return (
