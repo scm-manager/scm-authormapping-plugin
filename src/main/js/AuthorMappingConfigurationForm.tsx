@@ -31,10 +31,9 @@ import DeleteMappingButton from "./DeleteMappingButton";
 type Props = {
   initialConfiguration: AuthorMappingConfiguration;
   onConfigurationChange: (p1: AuthorMappingConfiguration, p2: boolean) => void;
-  readOnly: boolean;
 };
 
-const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onConfigurationChange, readOnly }) => {
+const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onConfigurationChange }) => {
   const [t] = useTranslation("plugins");
   const [configuration, setConfiguration] = useState<AuthorMappingConfiguration>(initialConfiguration);
 
