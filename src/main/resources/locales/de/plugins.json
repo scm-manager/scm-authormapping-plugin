@@ -12,7 +12,8 @@
         "mappedMail-helptext": "Neue E-Mail-Adresse des Autors",
         "add": "Mapping hinzufügen",
         "remove": "Mapping entfernen",
-        "enableAuto": "Auto-Mapping aktivieren"
+        "enableAuto": "Auto-Mapping aktivieren",
+        "enableAutoHelpText": "Auto-Mapping von Personen mithilfe der Datenbank"
       }
     }
   },

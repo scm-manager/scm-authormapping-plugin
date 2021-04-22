@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Documentation in English and German ([#4](https://github.com/scm-manager/scm-authormapping-plugin/pull/4))
 
+### Fixed
+- "Auto Mapping" checkbox cannot be unchecked ([#11](https://github.com/scm-manager/scm-authormapping-plugin/pull/11))
+
 ## 2.0.0 - 2020-06-04
 ### Changed
 - Changeover to MIT license ([#3](https://github.com/scm-manager/scm-authormapping-plugin/pull/3))
@@ -19,4 +22,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.0.0-rc2 - 2020-03-13
 ### Added
-- Add swagger rest annotations to generate openAPI specs for the scm-openapi-plugin. ([#2](https://github.com/scm-manager/scm-authormapping-plugin/pull/2))
+- Add swagger rest annotations to generate openAPI specs for the scm-openapi-plugin ([#2](https://github.com/scm-manager/scm-authormapping-plugin/pull/2))
