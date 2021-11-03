@@ -32,7 +32,7 @@ type Props = {
 };
 
 const DeleteMappingButton: FC<Props> = ({ onDelete, mapping, label }) => {
-  return <Icon name="trash" color="inherit" title={label} onClick={() => onDelete(mapping)} />;
+  return <Icon name="trash" color="inherit" title={label} onClick={() => onDelete(mapping)} className="is-clickable" />;
 };
 
 export default DeleteMappingButton;
