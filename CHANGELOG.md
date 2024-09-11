@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation in English and German ([#4](https://github.com/scm-manager/scm-authormapping-plugin/pull/4))
 
 ### Fixed
-- Auto Mapping" checkbox cannot be unchecked ([#11](https://github.com/scm-manager/scm-authormapping-plugin/pull/11))
+- Auto Mapping checkbox cannot be unchecked ([#11](https://github.com/scm-manager/scm-authormapping-plugin/pull/11))
 
 ## 2.0.0 - 2020-06-04
 ### Changed
