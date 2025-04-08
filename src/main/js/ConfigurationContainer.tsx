@@ -15,24 +15,27 @@
  */
 
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
-import { Configuration, Subtitle } from "@scm-manager/ui-components";
+import { useTranslation } from "react-i18next";
+import { Configuration } from "@scm-manager/ui-components";
+import { Subtitle, useDocumentTitleForRepository } from "@scm-manager/ui-core";
+import { Repository } from "@scm-manager/ui-types";
 import AuthorMappingConfigurationForm from "./AuthorMappingConfigurationForm";
 
-type Props = WithTranslation & {
+type Props = {
   link: string;
+  repository: Repository;
 };
 
-class ConfigurationContainer extends React.Component<Props> {
-  render() {
-    const { link, t } = this.props;
-    return (
-      <>
-        <Subtitle subtitle={t("scm-authormapping-plugin.config.title")} />
-        <Configuration link={link} render={props => <AuthorMappingConfigurationForm {...props} />} />
-      </>
-    );
-  }
-}
+const ConfigurationContainer: React.FC<Props> = ({ link, repository }) => {
+  const { t } = useTranslation("plugins");
+  useDocumentTitleForRepository(repository, t("scm-authormapping-plugin.config.title"));
 
-export default withTranslation("plugins")(ConfigurationContainer);
+  return (
+    <>
+      <Subtitle>{t("scm-authormapping-plugin.config.title")}</Subtitle>
+      <Configuration link={link} render={props => <AuthorMappingConfigurationForm {...props} />} />
+    </>
+  );
+};
+
+export default ConfigurationContainer;
