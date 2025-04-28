@@ -17,23 +17,20 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Configuration } from "@scm-manager/ui-components";
-import { Subtitle, useDocumentTitleForRepository } from "@scm-manager/ui-core";
-import { Repository } from "@scm-manager/ui-types";
+import { Subtitle } from "@scm-manager/ui-core";
 import AuthorMappingConfigurationForm from "./AuthorMappingConfigurationForm";
 
 type Props = {
   link: string;
-  repository: Repository;
 };
 
-const ConfigurationContainer: React.FC<Props> = ({ link, repository }) => {
+const ConfigurationContainer: React.FC<Props> = ({ link }) => {
   const { t } = useTranslation("plugins");
-  useDocumentTitleForRepository(repository, t("scm-authormapping-plugin.config.title"));
 
   return (
     <>
       <Subtitle>{t("scm-authormapping-plugin.config.title")}</Subtitle>
-      <Configuration link={link} render={props => <AuthorMappingConfigurationForm {...props} />} />
+      <Configuration link={link} render={(props) => <AuthorMappingConfigurationForm {...props} />} />
     </>
   );
 };
