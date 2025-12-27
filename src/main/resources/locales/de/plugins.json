@@ -2,13 +2,13 @@
   "scm-authormapping-plugin": {
     "nav-link": "Autoren-Mapping",
     "config": {
-      "title": "Autoren-Mapping Konfiguration",
+      "title": "Autoren-Mapping-Konfiguration",
       "form": {
         "author": "Autor",
         "author-helptext": "Ursprünglicher Name des Autors",
-        "mappedName": "Gemapter Name",
+        "mappedName": "Gemappter Name",
         "mappedName-helptext": "Neuer Anzeigename des Autors",
-        "mappedMail": "Gemapte E-Mail",
+        "mappedMail": "Gemappte E-Mail",
         "mappedMail-helptext": "Neue E-Mail-Adresse des Autors",
         "add": "Mapping hinzufügen",
         "remove": "Mapping entfernen",
@@ -21,7 +21,7 @@
     "repository": {
       "authormapping": {
         "*": {
-          "displayName": "Author-Mapping bearbeiten",
+          "displayName": "Autoren-Mapping bearbeiten",
           "description": "Darf das Autoren-Mapping für alle Repositories bearbeiten."
         }
       }
