@@ -40,7 +40,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
       author: author ? author : "",
       mappedName: mappedName ? mappedName : "",
       mappedMail: mappedMail ? mappedMail : "",
-      valid: false
+      valid: false,
     };
   }
   render() {
@@ -91,7 +91,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
 
     this.setState({
       ...this.state,
-      valid
+      valid,
     });
   };
 
@@ -99,9 +99,9 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
     this.setState(
       {
         ...this.state,
-        [name]: value
+        [name]: value,
       },
-      () => this.validateState()
+      () => this.validateState(),
     );
   };
 
@@ -114,7 +114,7 @@ class AuthorMappingFormComponent extends React.Component<Props, State> {
       author: "",
       mappedName: "",
       mappedMail: "",
-      valid: false
+      valid: false,
     });
   };
 }

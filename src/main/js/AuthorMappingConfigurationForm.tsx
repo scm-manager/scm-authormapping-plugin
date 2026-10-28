@@ -42,7 +42,7 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
   const enableAutoMappingChanged = (value: boolean) => {
     setConfiguration({
       ...configuration,
-      enableAutoMapping: value
+      enableAutoMapping: value,
     });
   };
 
@@ -56,15 +56,17 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
       return (
         <table className="table is-hoverable is-fullwidth">
           <thead>
-          <th>{t("scm-authormapping-plugin.config.form.author")}</th>
-          <th>{t("scm-authormapping-plugin.config.form.mappedName")}</th>
-          <th>{t("scm-authormapping-plugin.config.form.mappedMail")}</th>
-          <th />
+            <tr>
+              <th>{t("scm-authormapping-plugin.config.form.author")}</th>
+              <th>{t("scm-authormapping-plugin.config.form.mappedName")}</th>
+              <th>{t("scm-authormapping-plugin.config.form.mappedMail")}</th>
+              <th />
+            </tr>
           </thead>
           <tbody>
-          {Object.keys(manualMapping).map(key => {
-            return renderEntry(key, manualMapping[key]);
-          })}
+            {Object.keys(manualMapping).map((key) => {
+              return renderEntry(key, manualMapping[key]);
+            })}
           </tbody>
         </table>
       );
@@ -76,7 +78,7 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
     const mapping = {
       author: name,
       mappedName: value.name,
-      mappedMail: value.mail
+      mappedMail: value.mail,
     };
     return (
       <tr>
@@ -99,8 +101,8 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
 
     const newMapping: Mapping = {};
     Object.keys(currentMapping)
-      .filter(key => key !== mapping.author)
-      .forEach(key => {
+      .filter((key) => key !== mapping.author)
+      .forEach((key) => {
         newMapping[key] = currentMapping[key];
       });
 
@@ -113,8 +115,8 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
       ...currentMapping,
       [author]: {
         name: mappedName,
-        mail: mappedMail
-      }
+        mail: mappedMail,
+      },
     };
     updateManualMapping(newMapping);
   };
@@ -122,7 +124,7 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
   const updateManualMapping = (newMapping: Mapping) => {
     setConfiguration({
       ...configuration,
-      manualMapping: newMapping
+      manualMapping: newMapping,
     });
   };
 
@@ -138,7 +140,7 @@ const AuthorMappingConfigurationForm: FC<Props> = ({ initialConfiguration, onCon
       />
       <AuthorMappingFormComponent onSubmit={addMapping} />
     </>
-  )
+  );
 };
 
 export default AuthorMappingConfigurationForm;

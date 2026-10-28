@@ -14,18 +14,17 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-import React from "react";
+import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Configuration } from "@scm-manager/ui-components";
-import { Subtitle } from "@scm-manager/ui-core";
+import { Subtitle, useRepositoryFromParams } from "@scm-manager/ui-core";
+import { Link } from "@scm-manager/ui-types";
 import AuthorMappingConfigurationForm from "./AuthorMappingConfigurationForm";
 
-type Props = {
-  link: string;
-};
-
-const ConfigurationContainer: React.FC<Props> = ({ link }) => {
-  const { t } = useTranslation("plugins");
+const ConfigurationContainer: FC = () => {
+  const [t] = useTranslation("plugins");
+  const repository = useRepositoryFromParams();
+  const link = (repository._links["authorMappingConfig"] as Link)?.href;
 
   return (
     <>
